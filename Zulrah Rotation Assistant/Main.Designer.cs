@@ -34,6 +34,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
             this.Text = "Zulrah Rotation Assitant";
+            this.TopMost = true;
             this.ResumeLayout(false);
 
         }

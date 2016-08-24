@@ -18,11 +18,6 @@ namespace Zulrah_Rotation_Assistant {
         public Main() {
             InitializeComponent();
 
-            var Zulrah = new Zulrah();
-
-            Zulrah.NextPhase(StyleType.Melee);
-
-
             SpeechSynth.SetOutputToDefaultAudioDevice();
 
             var Language = new CultureInfo("en-us");

@@ -13,3 +13,18 @@ C:\Users\lkelley\Documents\Visual Studio 2015\Projects\Zulrah Rotation Assistant
 C:\Users\lkelley\Documents\Visual Studio 2015\Projects\Zulrah Rotation Assistant\Zulrah Rotation Assistant\bin\Debug\Rotations\Rotation_2.json
 C:\Users\lkelley\Documents\Visual Studio 2015\Projects\Zulrah Rotation Assistant\Zulrah Rotation Assistant\bin\Debug\Rotations\Rotation_3.json
 C:\Users\lkelley\Documents\Visual Studio 2015\Projects\Zulrah Rotation Assistant\Zulrah Rotation Assistant\bin\Debug\Rotations\Rotation_4.json
+D:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Zulrah Rotation Assistant.exe.config
+D:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah Rotation Assistant.exe
+D:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah Rotation Assistant.pdb
+D:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Rotations\Rotation_1.json
+D:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Rotations\Rotation_2.json
+D:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Rotations\Rotation_3.json
+D:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Rotations\Rotation_4.json
+D:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Zulrah Rotation Assistant.exe
+D:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Zulrah Rotation Assistant.pdb
+D:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Newtonsoft.Json.dll
+D:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Newtonsoft.Json.xml
+D:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah Rotation Assistant.csprojResolveAssemblyReference.cache
+D:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah_Rotation_Assistant.Main.resources
+D:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah_Rotation_Assistant.Properties.Resources.resources
+D:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah Rotation Assistant.csproj.GenerateResource.Cache

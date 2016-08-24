@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.Linq;
-using System.IO;
-using System;
+﻿namespace Zulrah_Rotation_Assistant {
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+    using System.Linq;
+    using System.IO;
+    using System;
 
-namespace Zulrah_Rotation_Assistant {
     public enum StyleType {
         Passive,
         Melee,
@@ -33,7 +33,11 @@ namespace Zulrah_Rotation_Assistant {
 
     public partial class Zulrah {
         private int PhaseIndex;
-        public bool RotationFound { get; private set; }
+        public bool RotationFound { get { return PossibleRotations.Count == 1; } }
+
+        private bool isLastPhase() {
+            return RotationFound && PossibleRotations[0].Count - 1 >= PhaseIndex;
+        }
         
         public List<List<Phase>> PossibleRotations { get; private set; }
         public List<List<Phase>> Rotations { get; private set; }
@@ -52,13 +56,50 @@ namespace Zulrah_Rotation_Assistant {
             PossibleRotations = Rotations;
         }
 
-        public void NextPhase(StyleType CurrentStyle) {
-            if(PossibleRotations.Count == 1) {
-                RotationFound = true;
-            } else {
-                PossibleRotations = PossibleRotations.Where(R => R[PhaseIndex].Style == CurrentStyle).ToList();
-            }
+        /// <summary>
+        /// Intializes/Resets the Zulrah Fight
+        /// </summary>
+        public void InitialPhase() {
+            PhaseIndex = 0;
+            PossibleRotations = Rotations;
+        }
+
+        /// <summary>
+        /// Used to figure out which zulrah rotation you are on. 
+        /// </summary>
+        /// <param name="CurrentStyle">What Phase you're being attacked by currently.</param>
+        /// <returns></returns>
+        public List<Phase> PossiblePhases(StyleType CurrentStyle) {
+            PossibleRotations = PossibleRotations.Where(R => R[PhaseIndex].Style == CurrentStyle).ToList();
+
+            var Result = PossibleRotations.Select(P => P[PhaseIndex + 1]).ToList();
+
             PhaseIndex++;
+
+            return Result;
+        }
+
+        /// <summary>
+        /// Used to select the next phase in zulrah's rotation. The Rotation must be found in order for this method to work, otherwise use PossiblePhase to find the correct tree.
+        /// </summary>
+        /// <returns>The next phase in Zulrah's rotation</returns>
+        public Phase NextPhase() {
+            Phase nextPhase;
+
+            //Reset to first phase if you hit the end of the rotation and are still killing zulrah.
+            if(isLastPhase()) {
+                PhaseIndex = 0;
+            }
+
+            if (RotationFound) {
+                nextPhase = PossibleRotations.Select(P => P[PhaseIndex + 1]).Single();
+            } else {
+                throw new InvalidOperationException();
+            }
+
+            PhaseIndex++;
+
+            return nextPhase;
         }
     }
 }
