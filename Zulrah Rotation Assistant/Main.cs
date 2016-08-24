@@ -26,8 +26,8 @@ namespace Zulrah_Rotation_Assistant {
 
             var Phase = Boss.NextPhase();
 
-            MapEngine.UpdateColor(Phase.MapBossLocation, Phase.GetPhaseColor());
-            MapEngine.UpdateColor(Phase.MapPlayerLocation, System.Drawing.Color.Purple);
+            MapEngine.ShowElement(Phase.MapBossLocation, Phase.GetPhaseColor());
+            MapEngine.ShowElement(Phase.MapPlayerLocation, System.Drawing.Color.Purple);
             Canvas.BackgroundImage = MapEngine.GetBitmap();
 
 
@@ -78,10 +78,15 @@ namespace Zulrah_Rotation_Assistant {
 
         private void btnNextPhase_Click(object sender, System.EventArgs e) {
             var Phase = Boss.NextPhase();
+            var Previous = Boss.PreviousPhase;
 
-            MapEngine.UpdateColor(Phase.MapBossLocation, Phase.GetPhaseColor());
-            MapEngine.UpdateColor(Phase.MapPlayerLocation, System.Drawing.Color.Purple);
+            MapEngine.HideElement(Previous.MapBossLocation);
+            MapEngine.HideElement(Previous.MapPlayerLocation);
+            MapEngine.ShowElement(Phase.MapBossLocation, Phase.GetPhaseColor());
+            MapEngine.ShowElement(Phase.MapPlayerLocation, System.Drawing.Color.Purple);
+
             Canvas.BackgroundImage = MapEngine.GetBitmap();
+            System.Console.Beep();
         }
     }
 }

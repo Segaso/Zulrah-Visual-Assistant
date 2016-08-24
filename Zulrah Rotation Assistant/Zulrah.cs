@@ -36,12 +36,13 @@
         public bool RotationFound { get { return PossibleRotations.Count == 1; } }
 
         private bool isLastPhase() {
-            return RotationFound && PossibleRotations[0].Count - 1 < PhaseIndex;
+            return RotationFound && PossibleRotations[0].Count - 1 <= PhaseIndex;
         }
         
         public List<List<Phase>> PossibleRotations { get; private set; }
         public List<List<Phase>> Rotations { get; private set; }
         public Phase PreviousPhase { get; private set; }
+        public Phase CurrentPhase { get; private set; }
 
     public Zulrah() {
             var Serializer = new JsonSerializer();
@@ -85,22 +86,22 @@
         /// </summary>
         /// <returns>The next phase in Zulrah's rotation</returns>
         public Phase NextPhase() {
-            Phase nextPhase;
-
             //Reset to first phase if you hit the end of the rotation and are still killing zulrah.
             if(isLastPhase()) {
                 PhaseIndex = 0;
             }
 
+            PreviousPhase = CurrentPhase;
+
             if (RotationFound) {
-                nextPhase = PossibleRotations.Select(P => P[PhaseIndex + 1]).Single();
+                CurrentPhase = PossibleRotations.Select(P => P[PhaseIndex + 1]).Single();
             } else {
                 throw new InvalidOperationException();
             }
 
             PhaseIndex++;
 
-            return nextPhase;
+            return CurrentPhase;
         }
     }
 }

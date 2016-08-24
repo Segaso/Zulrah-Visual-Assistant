@@ -7,28 +7,41 @@ namespace Zulrah_Rotation_Assistant {
     /// Class containg code for manipulating SVG graphics.
     /// </summary>
     public class MapRenderEngine {
-        private SvgDocument Map;
-        private SvgElement PreviousBossLocation;
-        
 
-        public MapRenderEngine(int Height, int Width) {
+        //Allow the map to be oriented in either direction
+        private bool FlipMap;
+        private SvgDocument Map;
+        
+        public MapRenderEngine(int Height, int Width, bool RotateMapOrientation = false ) {
             Map = SvgDocument.Open("ZulrahMap.svg");
             Map.Height = Height;
             Map.Width = Width;
+            FlipMap = RotateMapOrientation;
 
             var Island = Map.GetElementById("ZulrahIsland");
             Island.Fill = new SvgColourServer(Color.White);
         }
 
         public Bitmap GetBitmap() {
-           return Map.Draw();
+            Bitmap MapImage;
+            MapImage = Map.Draw();
+
+            if (FlipMap) {
+                MapImage.RotateFlip(RotateFlipType.Rotate180FlipX);
+            }
+            return MapImage;
         }
 
-        public void UpdateColor(string Element, Color FillColor) {
+        public void ShowElement(string Element, Color FillColor) {
             var MapObject = Map.GetElementById(Element);
 
             MapObject.FillOpacity = 255;
             MapObject.Fill = new SvgColourServer(FillColor);
+        }
+
+        public void HideElement(string Element) {
+            var MapObject = Map.GetElementById(Element);
+            MapObject.FillOpacity = 0;
         }
 
         /// <summary>
