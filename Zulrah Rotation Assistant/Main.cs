@@ -1,15 +1,12 @@
-﻿using System.IO;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Speech.Recognition;
+﻿using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Globalization;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Zulrah_Rotation_Assistant {
     public partial class Main : Form {
+        private MapRenderEngine MapEngine;
+        private Zulrah Boss;
         private SpeechSynthesizer SpeechSynth = new SpeechSynthesizer();
         private SpeechRecognitionEngine SpeechEngine;
 
@@ -17,11 +14,28 @@ namespace Zulrah_Rotation_Assistant {
 
         public Main() {
             InitializeComponent();
+            MapEngine = new MapRenderEngine(Canvas.Height, Canvas.Width);
 
+            Canvas.BackgroundImage = MapEngine.GetBitmap();
+
+            Boss = new Zulrah();
+            Boss.InitialPhase();
+            Boss.PossiblePhases(StyleType.Passive);
+            Boss.PossiblePhases(StyleType.Mage);
+
+
+            var Phase = Boss.NextPhase();
+
+            MapEngine.UpdateColor(Phase.MapBossLocation, Phase.GetPhaseColor());
+            MapEngine.UpdateColor(Phase.MapPlayerLocation, System.Drawing.Color.Purple);
+            Canvas.BackgroundImage = MapEngine.GetBitmap();
+
+
+            /*
             SpeechSynth.SetOutputToDefaultAudioDevice();
 
             var Language = new CultureInfo("en-us");
-
+            
             SpeechEngine = new SpeechRecognitionEngine(Language);
             SpeechEngine.SetInputToDefaultAudioDevice();
             SpeechEngine.SpeechRecognized += SpeechEngine_SpeechRecognized;
@@ -42,6 +56,7 @@ namespace Zulrah_Rotation_Assistant {
    
             SpeechEngine.LoadGrammarAsync(new Grammar(GramarCommands));
             SpeechEngine.RecognizeAsync(RecognizeMode.Multiple);
+            */
         }
 
         private void SpeechEngine_SpeechRecognized(object sender, SpeechRecognizedEventArgs e) {
@@ -54,6 +69,19 @@ namespace Zulrah_Rotation_Assistant {
             } else {
 
             }
+        }
+
+        private void Canvas_Resize(object sender, System.EventArgs e) {
+            MapEngine.AdjustMapSize(Canvas.Height, Canvas.Width);
+            Canvas.BackgroundImage = MapEngine.GetBitmap();
+        }
+
+        private void btnNextPhase_Click(object sender, System.EventArgs e) {
+            var Phase = Boss.NextPhase();
+
+            MapEngine.UpdateColor(Phase.MapBossLocation, Phase.GetPhaseColor());
+            MapEngine.UpdateColor(Phase.MapPlayerLocation, System.Drawing.Color.Purple);
+            Canvas.BackgroundImage = MapEngine.GetBitmap();
         }
     }
 }

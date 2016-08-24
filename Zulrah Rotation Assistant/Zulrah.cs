@@ -36,13 +36,14 @@
         public bool RotationFound { get { return PossibleRotations.Count == 1; } }
 
         private bool isLastPhase() {
-            return RotationFound && PossibleRotations[0].Count - 1 >= PhaseIndex;
+            return RotationFound && PossibleRotations[0].Count - 1 < PhaseIndex;
         }
         
         public List<List<Phase>> PossibleRotations { get; private set; }
         public List<List<Phase>> Rotations { get; private set; }
+        public Phase PreviousPhase { get; private set; }
 
-        public Zulrah() {
+    public Zulrah() {
             var Serializer = new JsonSerializer();
 
             Rotations = new List<List<Phase>>();

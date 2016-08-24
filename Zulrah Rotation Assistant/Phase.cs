@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Zulrah_Rotation_Assistant {
     public partial class Zulrah {
@@ -26,6 +22,32 @@ namespace Zulrah_Rotation_Assistant {
 
             [JsonProperty("Notes")]
             public string Notes;
+
+            public string MapBossLocation { get { return string.Format("BP_{0}", BossLocation.ToString()); } }
+            public string MapPlayerLocation { get { return string.Format("PP_{0}", PlayerLocation.ToString()); } }
+
+            public Color GetPhaseColor() {
+                Color ColorEquvilent = new Color(); 
+                switch(Style) {
+                    case StyleType.Mage:
+                        ColorEquvilent = Color.Aqua;
+                        break;
+                    case StyleType.Ranged:
+                        ColorEquvilent = Color.Green;
+                        break;
+                    case StyleType.Melee:
+                        ColorEquvilent = Color.Red;
+                        break;
+                    case StyleType.Passive:
+                        ColorEquvilent = Color.Green;
+                        break;
+                    case StyleType.Jad:
+                        ColorEquvilent = Color.Orange;
+                        break;
+                }
+                return ColorEquvilent;
+            }
+
         }
 
     }

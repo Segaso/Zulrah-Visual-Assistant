@@ -28,3 +28,22 @@ D:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah Rotation Assistant.csp
 D:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah_Rotation_Assistant.Main.resources
 D:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah_Rotation_Assistant.Properties.Resources.resources
 D:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah Rotation Assistant.csproj.GenerateResource.Cache
+J:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Zulrah Rotation Assistant.exe.config
+J:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah Rotation Assistant.exe
+J:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah Rotation Assistant.pdb
+J:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\ZulrahMap.svg
+J:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Rotations\Rotation_1.json
+J:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Rotations\Rotation_2.json
+J:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Rotations\Rotation_3.json
+J:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Rotations\Rotation_4.json
+J:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Zulrah Rotation Assistant.exe
+J:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Zulrah Rotation Assistant.pdb
+J:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Newtonsoft.Json.dll
+J:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Svg.dll
+J:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Newtonsoft.Json.xml
+J:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Svg.pdb
+J:\Code\Zulrah\Zulrah Rotation Assistant\bin\Debug\Svg.xml
+J:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah Rotation Assistant.csprojResolveAssemblyReference.cache
+J:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah_Rotation_Assistant.Main.resources
+J:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah_Rotation_Assistant.Properties.Resources.resources
+J:\Code\Zulrah\Zulrah Rotation Assistant\obj\Debug\Zulrah Rotation Assistant.csproj.GenerateResource.Cache
