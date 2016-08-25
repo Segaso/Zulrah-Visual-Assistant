@@ -74,7 +74,10 @@
         public List<Phase> PossiblePhases(StyleType CurrentStyle) {
             PossibleRotations = PossibleRotations.Where(R => R[PhaseIndex].Style == CurrentStyle).ToList();
 
-            var Result = PossibleRotations.Select(P => P[PhaseIndex + 1]).ToList();
+            //Get only distinct phases (otherwise you'd get two melee phases with same positioning for first round).
+            var Result = PossibleRotations.Select(P => P[PhaseIndex + 1])
+                                          .GroupBy(P => new { P.BossLocation, P.Style })
+                                          .Select(P => P.First()).ToList<Phase>();
 
             PhaseIndex++;
 

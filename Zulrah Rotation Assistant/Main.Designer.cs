@@ -26,8 +26,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.Canvas = new System.Windows.Forms.Panel();
             this.btnNextPhase = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.Layout = new System.Windows.Forms.TableLayoutPanel();
+            this.Layout.SuspendLayout();
             this.SuspendLayout();
             // 
             // Canvas
@@ -51,33 +51,33 @@
             this.btnNextPhase.UseVisualStyleBackColor = true;
             this.btnNextPhase.Click += new System.EventHandler(this.btnNextPhase_Click);
             // 
-            // tableLayoutPanel1
+            // Layout
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.Canvas, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnNextPhase, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(359, 333);
-            this.tableLayoutPanel1.TabIndex = 2;
+            this.Layout.ColumnCount = 1;
+            this.Layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Layout.Controls.Add(this.Canvas, 0, 0);
+            this.Layout.Controls.Add(this.btnNextPhase, 0, 1);
+            this.Layout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Layout.Location = new System.Drawing.Point(0, 0);
+            this.Layout.Name = "Layout";
+            this.Layout.RowCount = 2;
+            this.Layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Layout.Size = new System.Drawing.Size(359, 333);
+            this.Layout.TabIndex = 2;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(359, 333);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.Layout);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(50, 50);
             this.Name = "Main";
             this.Text = "Zulrah Rotation Assitant";
             this.TopMost = true;
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.Layout.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -86,6 +86,6 @@
 
         private System.Windows.Forms.Panel Canvas;
         private System.Windows.Forms.Button btnNextPhase;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel Layout;
     }
 }
