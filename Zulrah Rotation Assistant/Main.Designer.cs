@@ -24,28 +24,27 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            this.Canvas = new System.Windows.Forms.Panel();
+            this.MainCanvas = new System.Windows.Forms.Panel();
             this.btnNextPhase = new System.Windows.Forms.Button();
             this.Layout = new System.Windows.Forms.TableLayoutPanel();
             this.Layout.SuspendLayout();
             this.SuspendLayout();
             // 
-            // Canvas
+            // MainCanvas
             // 
-            this.Canvas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(48)))));
-            this.Canvas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Canvas.Location = new System.Drawing.Point(3, 3);
-            this.Canvas.Name = "Canvas";
-            this.Canvas.Size = new System.Drawing.Size(353, 292);
-            this.Canvas.TabIndex = 0;
-            this.Canvas.Resize += new System.EventHandler(this.Canvas_Resize);
+            this.MainCanvas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(48)))));
+            this.MainCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainCanvas.Location = new System.Drawing.Point(3, 3);
+            this.MainCanvas.Name = "MainCanvas";
+            this.MainCanvas.Size = new System.Drawing.Size(517, 493);
+            this.MainCanvas.TabIndex = 0;
             // 
             // btnNextPhase
             // 
             this.btnNextPhase.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnNextPhase.Location = new System.Drawing.Point(3, 301);
+            this.btnNextPhase.Location = new System.Drawing.Point(3, 502);
             this.btnNextPhase.Name = "btnNextPhase";
-            this.btnNextPhase.Size = new System.Drawing.Size(353, 29);
+            this.btnNextPhase.Size = new System.Drawing.Size(517, 29);
             this.btnNextPhase.TabIndex = 1;
             this.btnNextPhase.Text = "Next Phase";
             this.btnNextPhase.UseVisualStyleBackColor = true;
@@ -55,7 +54,7 @@
             // 
             this.Layout.ColumnCount = 1;
             this.Layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Layout.Controls.Add(this.Canvas, 0, 0);
+            this.Layout.Controls.Add(this.MainCanvas, 0, 0);
             this.Layout.Controls.Add(this.btnNextPhase, 0, 1);
             this.Layout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Layout.Location = new System.Drawing.Point(0, 0);
@@ -63,17 +62,17 @@
             this.Layout.RowCount = 2;
             this.Layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.Layout.Size = new System.Drawing.Size(359, 333);
+            this.Layout.Size = new System.Drawing.Size(523, 534);
             this.Layout.TabIndex = 2;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(359, 333);
+            this.ClientSize = new System.Drawing.Size(523, 534);
             this.Controls.Add(this.Layout);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(50, 50);
+            this.MinimumSize = new System.Drawing.Size(539, 573);
             this.Name = "Main";
             this.Text = "Zulrah Rotation Assitant";
             this.TopMost = true;
@@ -84,7 +83,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel Canvas;
+        private System.Windows.Forms.Panel MainCanvas;
         private System.Windows.Forms.Button btnNextPhase;
         private System.Windows.Forms.TableLayoutPanel Layout;
     }

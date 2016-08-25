@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using Svg;
-using System.Collections.Generic;
+using System.Windows.Forms;
+using System.Linq;
 
 namespace Zulrah_Rotation_Assistant {
     /// <summary>
@@ -11,15 +12,27 @@ namespace Zulrah_Rotation_Assistant {
         //Allow the map to be oriented in either direction
         private bool FlipMap;
         private SvgDocument Map;
+        private static Color PlayerColor = Color.Purple;
         
-        public MapRenderEngine(int Height, int Width, bool RotateMapOrientation = false ) {
+        public MapRenderEngine(ref Panel Canvas, bool RotateMapOrientation = false) {
             Map = SvgDocument.Open("ZulrahMap.svg");
-            Map.Height = Height;
-            Map.Width = Width;
+            Map.Height = Canvas.Height;
+            Map.Width = Canvas.Width;
             FlipMap = RotateMapOrientation;
 
             var Island = Map.GetElementById("ZulrahIsland");
             Island.Fill = new SvgColourServer(Color.White);
+
+            Canvas.SizeChanged += Canvas_SizeChanged;
+        }
+
+        private void Canvas_SizeChanged(object sender, System.EventArgs e) {
+            var Canvas = (Panel)sender;
+
+            Map.Height = Map.Height = Canvas.Height;
+            Map.Width = Canvas.Width;
+
+            Canvas.BackgroundImage = GetBitmap();
         }
 
         public Bitmap GetBitmap() {
@@ -32,7 +45,23 @@ namespace Zulrah_Rotation_Assistant {
             return MapImage;
         }
 
+        public void ShowPhase(Zulrah.Phase Phase) {
+
+            var BossObject = Map.GetElementById(Phase.MapBossLocation);
+            var PlayerObject = Map.GetElementById(Phase.MapPlayerLocation);
+
+            BossObject.FillOpacity = 255;
+            PlayerObject.FillOpacity = 255;
+
+            PlayerObject.Fill = new SvgColourServer(PlayerColor);
+            BossObject.Fill = new SvgColourServer(Phase.GetPhaseColor());
+        }
+
+
+
         public void ShowElement(string Element, Color FillColor) {
+      
+
             var MapObject = Map.GetElementById(Element);
 
             MapObject.FillOpacity = 255;

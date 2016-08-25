@@ -16,9 +16,7 @@ namespace Zulrah_Rotation_Assistant {
 
         public Main() {
             InitializeComponent();
-            MainMap = new MapRenderEngine(Canvas.Height, Canvas.Width);
-
-            Canvas.BackgroundImage = MainMap.GetBitmap();
+            MainMap = new MapRenderEngine(ref MainCanvas);
 
             Boss = new Zulrah();
             Boss.InitialPhase();
@@ -28,38 +26,7 @@ namespace Zulrah_Rotation_Assistant {
                 ShowPhaseDisplay(PossiblePhases);
             }
 
-            /*
-            MapEngine.ShowElement(Phase.MapBossLocation, Phase.GetPhaseColor());
-            MapEngine.ShowElement(Phase.MapPlayerLocation, System.Drawing.Color.Purple);
-            Canvas.BackgroundImage = MapEngine.GetBitmap();
-            */
 
-            /*
-            SpeechSynth.SetOutputToDefaultAudioDevice();
-
-            var Language = new CultureInfo("en-us");
-            
-            SpeechEngine = new SpeechRecognitionEngine(Language);
-            SpeechEngine.SetInputToDefaultAudioDevice();
-            SpeechEngine.SpeechRecognized += SpeechEngine_SpeechRecognized;
-
-            var Commands = new Choices();
-
-            Commands.Add("Speech Off");
-            Commands.Add("Speech On");
-            Commands.Add("Next");
-            Commands.Add("Reset");
-            Commands.Add("Blue");
-            Commands.Add("Red");
-            Commands.Add("Green");
-            Commands.Add("Top");
-
-            var GramarCommands = new GrammarBuilder();
-            GramarCommands.Append(Commands);
-   
-            SpeechEngine.LoadGrammarAsync(new Grammar(GramarCommands));
-            SpeechEngine.RecognizeAsync(RecognizeMode.Multiple);
-            */
         }
 
         private void SpeechEngine_SpeechRecognized(object sender, SpeechRecognizedEventArgs e) {
@@ -74,11 +41,6 @@ namespace Zulrah_Rotation_Assistant {
             }
         }
 
-        private void Canvas_Resize(object sender, System.EventArgs e) {
-            MainMap.AdjustMapSize(Canvas.Height, Canvas.Width);
-            Canvas.BackgroundImage = MainMap.GetBitmap();
-        }
-
         private void btnNextPhase_Click(object sender, System.EventArgs e) {
             var Phase = Boss.NextPhase();
             var Previous = Boss.PreviousPhase;
@@ -88,7 +50,7 @@ namespace Zulrah_Rotation_Assistant {
             MainMap.ShowElement(Phase.MapBossLocation, Phase.GetPhaseColor());
             MainMap.ShowElement(Phase.MapPlayerLocation, System.Drawing.Color.Purple);
 
-            Canvas.BackgroundImage = MainMap.GetBitmap();
+            MainCanvas.BackgroundImage = MainMap.GetBitmap();
             System.Console.Beep();
         }
 
@@ -110,19 +72,17 @@ namespace Zulrah_Rotation_Assistant {
                     Width = Convert.ToSingle(1.0 / Phases.Count)
                 });
 
-                var PhaseImage = new Panel() {
+                var PhaseCanvas = new Panel() {
                     Dock = DockStyle.Fill,
                     BorderStyle = BorderStyle.Fixed3D
                 };
 
-                var PhaseMap = new MapRenderEngine(PhaseImage.Height, PhaseImage.Width);
+                var PhaseMap = new MapRenderEngine(ref PhaseCanvas);
 
                 PhaseMap.ShowElement(Phases[i].MapBossLocation, Phases[i].GetPhaseColor());
                 PhaseMap.ShowElement(Phases[i].MapPlayerLocation, System.Drawing.Color.Purple);
 
-                PhaseImage.BackgroundImage = PhaseMap.GetBitmap();
-
-                PossiblePhaseDisplay.Controls.Add(PhaseImage, i, 0);
+                PossiblePhaseDisplay.Controls.Add(PhaseCanvas, i, 0);
             }
 
             Layout.RowCount++;
