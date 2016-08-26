@@ -1,7 +1,6 @@
 ﻿using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Globalization;
-
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System;
@@ -16,6 +15,8 @@ namespace Zulrah_Rotation_Assistant {
 
         public Main() {
             InitializeComponent();
+
+            var Test = Properties.Settings.Default.PlayerColor;
             MainMap = new MapRenderEngine(ref MainCanvas);
 
             Boss = new Zulrah();

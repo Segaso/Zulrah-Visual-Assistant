@@ -1,5 +1,33 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Zulrah_Rotation_Assistant.Properties" GeneratedClassName="Settings">
   <Profiles />
-  <Settings />
+  <Settings>
+    <Setting Name="MeleeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">246, 0, 58</Value>
+    </Setting>
+    <Setting Name="MageColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">20, 128, 250</Value>
+    </Setting>
+    <Setting Name="RangeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">90, 254, 0</Value>
+    </Setting>
+    <Setting Name="JadColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">187, 37, 21</Value>
+    </Setting>
+    <Setting Name="PassiveColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">90, 250, 0</Value>
+    </Setting>
+    <Setting Name="ZulrahIsland_Color" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">255, 253, 253</Value>
+    </Setting>
+    <Setting Name="PlayerColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">218, 36, 229</Value>
+    </Setting>
+    <Setting Name="ZulrahIsland_BorderColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="MapBackgroundColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">49, 49, 49</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

@@ -16,8 +16,8 @@ namespace Zulrah_Rotation_Assistant {
         private SvgDocument Map;
         private Panel MapCanvas;
         private List<string> PreviousElementIDs;
-        private static Color PlayerColor = Color.Purple;
-        private static Color MapColor = Color.FromArgb(47, 47, 48);
+        private static Color PlayerColor = Properties.Settings.Default.PlayerColor;
+        private static Color MapColor = Properties.Settings.Default.MapBackgroundColor;
         
         public MapRenderEngine(ref Panel Canvas, bool RotateMapOrientation = false) {
             MapCanvas = Canvas;
@@ -28,7 +28,8 @@ namespace Zulrah_Rotation_Assistant {
             FlipMap = RotateMapOrientation;
 
             var Island = Map.GetElementById("ZulrahIsland");
-            Island.Fill = new SvgColourServer(Color.White);
+            Island.Fill = new SvgColourServer(Properties.Settings.Default.ZulrahIsland_Color);
+            Island.Stroke = new SvgColourServer(Properties.Settings.Default.ZulrahIsland_BorderColor);
 
             MapCanvas.BackColor = MapColor;
 

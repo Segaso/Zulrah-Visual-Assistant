@@ -30,19 +30,19 @@ namespace Zulrah_Rotation_Assistant {
                 Color ColorEquvilent = new Color(); 
                 switch(Style) {
                     case StyleType.Mage:
-                        ColorEquvilent = Color.Aqua;
+                        ColorEquvilent = Properties.Settings.Default.MageColor;
                         break;
                     case StyleType.Ranged:
-                        ColorEquvilent = Color.Green;
+                        ColorEquvilent = Properties.Settings.Default.RangeColor;
                         break;
                     case StyleType.Melee:
-                        ColorEquvilent = Color.Red;
+                        ColorEquvilent = Properties.Settings.Default.MeleeColor;
                         break;
                     case StyleType.Passive:
-                        ColorEquvilent = Color.Green;
+                        ColorEquvilent = Properties.Settings.Default.PassiveColor;
                         break;
                     case StyleType.Jad:
-                        ColorEquvilent = Color.Orange;
+                        ColorEquvilent = Properties.Settings.Default.JadColor;
                         break;
                 }
                 return ColorEquvilent;

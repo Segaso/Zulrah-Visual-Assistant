@@ -32,9 +32,10 @@
             // MainCanvas
             // 
             this.MainCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainCanvas.Location = new System.Drawing.Point(3, 3);
+            this.MainCanvas.Location = new System.Drawing.Point(0, 0);
+            this.MainCanvas.Margin = new System.Windows.Forms.Padding(0);
             this.MainCanvas.Name = "MainCanvas";
-            this.MainCanvas.Size = new System.Drawing.Size(517, 528);
+            this.MainCanvas.Size = new System.Drawing.Size(523, 534);
             this.MainCanvas.TabIndex = 0;
             // 
             // MainLayout
@@ -55,7 +56,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(84)))), ((int)(((byte)(57)))));
+            this.BackColor = Properties.Settings.Default.MapBackgroundColor;
             this.ClientSize = new System.Drawing.Size(523, 534);
             this.Controls.Add(this.MainLayout);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

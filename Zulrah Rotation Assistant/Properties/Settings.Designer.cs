@@ -22,5 +22,113 @@ namespace Zulrah_Rotation_Assistant.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("246, 0, 58")]
+        public global::System.Drawing.Color MeleeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["MeleeColor"]));
+            }
+            set {
+                this["MeleeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20, 128, 250")]
+        public global::System.Drawing.Color MageColor {
+            get {
+                return ((global::System.Drawing.Color)(this["MageColor"]));
+            }
+            set {
+                this["MageColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("90, 254, 0")]
+        public global::System.Drawing.Color RangeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["RangeColor"]));
+            }
+            set {
+                this["RangeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("187, 37, 21")]
+        public global::System.Drawing.Color JadColor {
+            get {
+                return ((global::System.Drawing.Color)(this["JadColor"]));
+            }
+            set {
+                this["JadColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("90, 250, 0")]
+        public global::System.Drawing.Color PassiveColor {
+            get {
+                return ((global::System.Drawing.Color)(this["PassiveColor"]));
+            }
+            set {
+                this["PassiveColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("255, 253, 253")]
+        public global::System.Drawing.Color ZulrahIsland_Color {
+            get {
+                return ((global::System.Drawing.Color)(this["ZulrahIsland_Color"]));
+            }
+            set {
+                this["ZulrahIsland_Color"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("218, 36, 229")]
+        public global::System.Drawing.Color PlayerColor {
+            get {
+                return ((global::System.Drawing.Color)(this["PlayerColor"]));
+            }
+            set {
+                this["PlayerColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color ZulrahIsland_BorderColor {
+            get {
+                return ((global::System.Drawing.Color)(this["ZulrahIsland_BorderColor"]));
+            }
+            set {
+                this["ZulrahIsland_BorderColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("49, 49, 49")]
+        public global::System.Drawing.Color MapBackgroundColor {
+            get {
+                return ((global::System.Drawing.Color)(this["MapBackgroundColor"]));
+            }
+            set {
+                this["MapBackgroundColor"] = value;
+            }
+        }
     }
 }
