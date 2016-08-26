@@ -2,6 +2,8 @@
 using Svg;
 using System.Windows.Forms;
 using System.Linq;
+using System.Collections.Generic;
+using System;
 
 namespace Zulrah_Rotation_Assistant {
     /// <summary>
@@ -12,7 +14,9 @@ namespace Zulrah_Rotation_Assistant {
         //Allow the map to be oriented in either direction
         private bool FlipMap;
         private SvgDocument Map;
+        private List<string> PreviousElementIDs;
         private static Color PlayerColor = Color.Purple;
+        private static Color MapColor = Color.FromArgb(47, 47, 48);
         
         public MapRenderEngine(ref Panel Canvas, bool RotateMapOrientation = false) {
             Map = SvgDocument.Open("ZulrahMap.svg");
@@ -22,6 +26,8 @@ namespace Zulrah_Rotation_Assistant {
 
             var Island = Map.GetElementById("ZulrahIsland");
             Island.Fill = new SvgColourServer(Color.White);
+
+            Canvas.BackColor = MapColor;
 
             Canvas.SizeChanged += Canvas_SizeChanged;
         }
@@ -46,26 +52,29 @@ namespace Zulrah_Rotation_Assistant {
         }
 
         public void ShowPhase(Zulrah.Phase Phase) {
+            try {
+                foreach (string ElementID in PreviousElementIDs) {
+                    HideElement(ElementID);
+                }
+            }catch(NullReferenceException) {
+                PreviousElementIDs = new List<string>();
+            }
+
+
+            PreviousElementIDs.Clear();
 
             var BossObject = Map.GetElementById(Phase.MapBossLocation);
             var PlayerObject = Map.GetElementById(Phase.MapPlayerLocation);
+
+            PreviousElementIDs.Add(Phase.MapBossLocation);
+            PreviousElementIDs.Add(Phase.MapPlayerLocation);
+            
 
             BossObject.FillOpacity = 255;
             PlayerObject.FillOpacity = 255;
 
             PlayerObject.Fill = new SvgColourServer(PlayerColor);
             BossObject.Fill = new SvgColourServer(Phase.GetPhaseColor());
-        }
-
-
-
-        public void ShowElement(string Element, Color FillColor) {
-      
-
-            var MapObject = Map.GetElementById(Element);
-
-            MapObject.FillOpacity = 255;
-            MapObject.Fill = new SvgColourServer(FillColor);
         }
 
         public void HideElement(string Element) {
