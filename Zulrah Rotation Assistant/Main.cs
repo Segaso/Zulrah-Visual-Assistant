@@ -1,18 +1,18 @@
 ﻿using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Globalization;
+
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System;
 
 namespace Zulrah_Rotation_Assistant {
     public partial class Main : Form {
-        private bool PhaseDisplayOn;
+        private bool PhasesDisplayOn;
         private MapRenderEngine MainMap;
         private Zulrah Boss;
+        private SpeechRecognitionEngine SpeechEngine;
         private SpeechSynthesizer SpeechSynth = new SpeechSynthesizer();
-
-        private bool SpeechOn = true;
 
         public Main() {
             InitializeComponent();
@@ -20,51 +20,82 @@ namespace Zulrah_Rotation_Assistant {
 
             Boss = new Zulrah();
             Boss.InitialPhase();
-            var PossiblePhases = Boss.PossiblePhases(StyleType.Passive);
 
             MainMap.ShowPhase(Boss.CurrentPhase);
 
-            if (PossiblePhases.Count > 1) {
-                ShowPhaseDisplay(PossiblePhases);
+            try {
+                Boss.NextPhase();
+            } catch(InvalidOperationException) {
+                var Phases = Boss.PossiblePhases(Boss.CurrentPhase.Style);
+                ShowPhaseDisplay(Phases);
             }
 
+            var Language = new CultureInfo("en-us");
+
+            SpeechEngine = new SpeechRecognitionEngine(Language);
+            SpeechEngine.SetInputToDefaultAudioDevice();
+            SpeechEngine.SpeechRecognized += SpeechEngine_SpeechRecognized;
+
+            var Commands = new Choices();
+
+            Commands.Add("Speech Off");
+            Commands.Add("Speech On");
+            Commands.Add("Next");
+            Commands.Add("Reset");
+            Commands.Add("Blue");
+            Commands.Add("Red");
+            Commands.Add("Green");
+            Commands.Add("Top");
+
+            var GramarCommands = new GrammarBuilder();
+            GramarCommands.Append(Commands);
+
+            SpeechEngine.LoadGrammarAsync(new Grammar(GramarCommands));
+            SpeechEngine.RecognizeAsync(RecognizeMode.Multiple);
 
         }
 
-        private void SpeechEngine_SpeechRecognized(object sender, SpeechRecognizedEventArgs e) {
-            string txt = e.Result.Text;
-            float confidence = e.Result.Confidence;
+        private void btnNextPhase_Click(object sender, EventArgs e) {
+        }
 
+        private void NextPhase(StyleType Style) {
+            if (!Boss.PhaseDescisionInputRequired) {
+                try {
+                    MainMap.ShowPhase(Boss.NextPhase());
 
-            if(SpeechOn) {
+                    if (PhasesDisplayOn) {
+                        HidePhaseDisplay();
+                    }
 
+                } catch (InvalidOperationException) {
+                    var Phases = Boss.PossiblePhases(Boss.CurrentPhase.Style);
+                    ShowPhaseDisplay(Phases);
+                }
             } else {
-
-            }
-        }
-
-        private void btnNextPhase_Click(object sender, System.EventArgs e) {
-            if(Boss.RotationFound) {
-                if (PhaseDisplayOn) {
+                MainMap.ShowPhase(Boss.NextPhase(Style));
+                if (PhasesDisplayOn) {
                     HidePhaseDisplay();
                 }
-
-                MainMap.ShowPhase(Boss.NextPhase());
-            } else {
-                ShowPhaseDisplay(Boss.PossiblePhases(StyleType.Ranged));
             }
-
         }
 
 
+        private void NextPhase(BossLocationType Location) {
+            if (Boss.PhaseSameAttackStyle) {
+                MainMap.ShowPhase(Boss.NextPhase(Location));
+                if (PhasesDisplayOn) {
+                    HidePhaseDisplay();
+                }
+            }
+        }
+
         private void HidePhaseDisplay() {
-            Layout.Controls.Remove(Layout.GetControlFromPosition(0, 0));
+            MainLayout.Controls.Remove(MainLayout.GetControlFromPosition(0, 0));
     
-            Layout.RowCount--;
-            Layout.RowStyles.RemoveAt(0);
+            MainLayout.RowCount--;
+            MainLayout.RowStyles.RemoveAt(0);
 
-            PhaseDisplayOn = false;
-
+            PhasesDisplayOn = false;
         }
 
         private void ShowPhaseDisplay(List<Zulrah.Phase> Phases) {
@@ -97,15 +128,52 @@ namespace Zulrah_Rotation_Assistant {
                 PossiblePhaseDisplay.Controls.Add(PhaseCanvas, i, 0);
             }
 
-            Layout.RowCount++;
-            Layout.RowStyles.Insert(0, new RowStyle() {
+            MainLayout.RowCount++;
+            MainLayout.RowStyles.Insert(0, new RowStyle() {
                 SizeType = SizeType.Percent,
                 Height = 30
             });
 
-            Layout.Controls.Add(PossiblePhaseDisplay, 0, 0);
+            MainLayout.Controls.Add(PossiblePhaseDisplay, 0, 0);
 
-            PhaseDisplayOn = true;
+            PhasesDisplayOn = true;
+        }
+
+        private void SpeechEngine_SpeechRecognized(object sender, SpeechRecognizedEventArgs e) {
+            string VoiceCommand = e.Result.Text;
+            float confidence = e.Result.Confidence;
+
+            switch (VoiceCommand) {
+               case "Next":
+                    NextPhase(Boss.CurrentPhase.Style);
+                    break;
+                case "Top":
+                    NextPhase(BossLocationType.N);
+                    break;
+                case "Red":
+                    NextPhase(StyleType.Melee);
+                    break;
+                case "Blue":
+                    NextPhase(StyleType.Melee);
+                    break;
+                case "Green":
+                    NextPhase(StyleType.Ranged);
+                    break;
+                case "Reset":
+                    Boss.InitialPhase();
+
+                    MainMap.ShowPhase(Boss.CurrentPhase);
+
+                    try {
+                        Boss.NextPhase();
+                    } catch (InvalidOperationException) {
+                        var Phases = Boss.PossiblePhases(Boss.CurrentPhase.Style);
+                        if (!PhasesDisplayOn) {
+                            ShowPhaseDisplay(Phases);
+                        }
+                    }
+                    break;
+            };
         }
     }
 }

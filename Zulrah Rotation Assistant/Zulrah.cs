@@ -43,7 +43,10 @@
 
         public Phase CurrentPhase { get; private set; }
 
-    public Zulrah() {
+        public bool PhaseDescisionInputRequired { get; private set; }
+        public bool PhaseSameAttackStyle { get; private set; }
+
+        public Zulrah() {
             var Serializer = new JsonSerializer();
 
             Rotations = new List<List<Phase>>();
@@ -84,6 +87,31 @@
 
             PhaseIndex++;
 
+            if (Result.Count != Result.GroupBy(S => S.Style).Count()) {
+                PhaseSameAttackStyle = true;
+            } else {
+                PhaseSameAttackStyle = false;
+            }
+
+            return Result;
+        }
+
+        public List<Phase> PossiblePhases(BossLocationType BossLocation) {
+            PossibleRotations = PossibleRotations.Where(R => R[PhaseIndex].BossLocation == BossLocation).ToList();
+
+            //Get only distinct phases (otherwise you'd get two melee phases with same positioning for first round).
+            var Result = PossibleRotations.Select(P => P[PhaseIndex + 1])
+                                          .GroupBy(P => new { P.BossLocation, P.Style })
+                                          .Select(P => P.First()).ToList<Phase>();
+
+            PhaseIndex++;
+
+            if (Result.Count != Result.GroupBy(S => S.Style).Count()) {
+                PhaseSameAttackStyle = true;
+            } else {
+                PhaseSameAttackStyle = false;
+            }
+
             return Result;
         }
 
@@ -100,6 +128,7 @@
             if (RotationFound) {
                 CurrentPhase = PossibleRotations.Select(P => P[PhaseIndex + 1]).Single();
             } else {
+                PhaseDescisionInputRequired = true;
                 throw new InvalidOperationException();
             }
 
@@ -107,5 +136,22 @@
 
             return CurrentPhase;
         }
+
+        public Phase NextPhase(StyleType PhaseChosen) {
+            CurrentPhase = PossiblePhases(PhaseChosen).Single();
+            PhaseDescisionInputRequired = false;
+
+            return CurrentPhase;
+        }
+
+        public Phase NextPhase(BossLocationType PhaseChosen) {
+            CurrentPhase = PossiblePhases(PhaseChosen).Single();
+
+            PhaseDescisionInputRequired = false;
+
+            return CurrentPhase;
+        }
+
+
     }
 }

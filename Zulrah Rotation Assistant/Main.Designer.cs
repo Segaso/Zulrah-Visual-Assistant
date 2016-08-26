@@ -25,9 +25,8 @@
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.MainCanvas = new System.Windows.Forms.Panel();
-            this.btnNextPhase = new System.Windows.Forms.Button();
-            this.Layout = new System.Windows.Forms.TableLayoutPanel();
-            this.Layout.SuspendLayout();
+            this.MainLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.MainLayout.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainCanvas
@@ -35,34 +34,22 @@
             this.MainCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainCanvas.Location = new System.Drawing.Point(3, 3);
             this.MainCanvas.Name = "MainCanvas";
-            this.MainCanvas.Size = new System.Drawing.Size(517, 493);
+            this.MainCanvas.Size = new System.Drawing.Size(517, 528);
             this.MainCanvas.TabIndex = 0;
             // 
-            // btnNextPhase
+            // MainLayout
             // 
-            this.btnNextPhase.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnNextPhase.Location = new System.Drawing.Point(3, 502);
-            this.btnNextPhase.Name = "btnNextPhase";
-            this.btnNextPhase.Size = new System.Drawing.Size(517, 29);
-            this.btnNextPhase.TabIndex = 1;
-            this.btnNextPhase.Text = "Next Phase";
-            this.btnNextPhase.UseVisualStyleBackColor = true;
-            this.btnNextPhase.Click += new System.EventHandler(this.btnNextPhase_Click);
-            // 
-            // Layout
-            // 
-            this.Layout.ColumnCount = 1;
-            this.Layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Layout.Controls.Add(this.MainCanvas, 0, 0);
-            this.Layout.Controls.Add(this.btnNextPhase, 0, 1);
-            this.Layout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Layout.Location = new System.Drawing.Point(0, 0);
-            this.Layout.Name = "Layout";
-            this.Layout.RowCount = 2;
-            this.Layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.Layout.Size = new System.Drawing.Size(523, 534);
-            this.Layout.TabIndex = 2;
+            this.MainLayout.ColumnCount = 1;
+            this.MainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.MainLayout.Controls.Add(this.MainCanvas, 0, 0);
+            this.MainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainLayout.Location = new System.Drawing.Point(0, 0);
+            this.MainLayout.Name = "MainLayout";
+            this.MainLayout.RowCount = 1;
+            this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.MainLayout.Size = new System.Drawing.Size(523, 534);
+            this.MainLayout.TabIndex = 2;
             // 
             // Main
             // 
@@ -70,13 +57,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(84)))), ((int)(((byte)(57)))));
             this.ClientSize = new System.Drawing.Size(523, 534);
-            this.Controls.Add(this.Layout);
+            this.Controls.Add(this.MainLayout);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(539, 573);
             this.Name = "Main";
             this.Text = "Zulrah Rotation Assitant";
             this.TopMost = true;
-            this.Layout.ResumeLayout(false);
+            this.MainLayout.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -84,7 +71,6 @@
         #endregion
 
         private System.Windows.Forms.Panel MainCanvas;
-        private System.Windows.Forms.Button btnNextPhase;
-        private System.Windows.Forms.TableLayoutPanel Layout;
+        private System.Windows.Forms.TableLayoutPanel MainLayout;
     }
 }

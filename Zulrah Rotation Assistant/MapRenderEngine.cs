@@ -14,22 +14,25 @@ namespace Zulrah_Rotation_Assistant {
         //Allow the map to be oriented in either direction
         private bool FlipMap;
         private SvgDocument Map;
+        private Panel MapCanvas;
         private List<string> PreviousElementIDs;
         private static Color PlayerColor = Color.Purple;
         private static Color MapColor = Color.FromArgb(47, 47, 48);
         
         public MapRenderEngine(ref Panel Canvas, bool RotateMapOrientation = false) {
+            MapCanvas = Canvas;
+
             Map = SvgDocument.Open("ZulrahMap.svg");
-            Map.Height = Canvas.Height;
-            Map.Width = Canvas.Width;
+            Map.Height = MapCanvas.Height;
+            Map.Width = MapCanvas.Width;
             FlipMap = RotateMapOrientation;
 
             var Island = Map.GetElementById("ZulrahIsland");
             Island.Fill = new SvgColourServer(Color.White);
 
-            Canvas.BackColor = MapColor;
+            MapCanvas.BackColor = MapColor;
 
-            Canvas.SizeChanged += Canvas_SizeChanged;
+            MapCanvas.SizeChanged += Canvas_SizeChanged;
         }
 
         private void Canvas_SizeChanged(object sender, System.EventArgs e) {
@@ -75,6 +78,8 @@ namespace Zulrah_Rotation_Assistant {
 
             PlayerObject.Fill = new SvgColourServer(PlayerColor);
             BossObject.Fill = new SvgColourServer(Phase.GetPhaseColor());
+
+            MapCanvas.BackgroundImage = GetBitmap();
         }
 
         public void HideElement(string Element) {
