@@ -7,10 +7,10 @@ using System;
 
 namespace Zulrah_Rotation_Assistant {
     public partial class Main : Form {
+        private bool PhaseDisplayOn;
         private MapRenderEngine MainMap;
         private Zulrah Boss;
         private SpeechSynthesizer SpeechSynth = new SpeechSynthesizer();
-        private SpeechRecognitionEngine SpeechEngine;
 
         private bool SpeechOn = true;
 
@@ -22,7 +22,9 @@ namespace Zulrah_Rotation_Assistant {
             Boss.InitialPhase();
             var PossiblePhases = Boss.PossiblePhases(StyleType.Passive);
 
-            if(PossiblePhases.Count > 1) {
+            MainMap.ShowPhase(Boss.CurrentPhase);
+
+            if (PossiblePhases.Count > 1) {
                 ShowPhaseDisplay(PossiblePhases);
             }
 
@@ -42,22 +44,34 @@ namespace Zulrah_Rotation_Assistant {
         }
 
         private void btnNextPhase_Click(object sender, System.EventArgs e) {
-            var Phase = Boss.NextPhase();
-            var Previous = Boss.PreviousPhase;
+            if(Boss.RotationFound) {
+                if (PhaseDisplayOn) {
+                    HidePhaseDisplay();
+                }
 
-            MainMap.HideElement(Previous.MapBossLocation);
-            MainMap.HideElement(Previous.MapPlayerLocation);
-            MainMap.ShowElement(Phase.MapBossLocation, Phase.GetPhaseColor());
-            MainMap.ShowElement(Phase.MapPlayerLocation, System.Drawing.Color.Purple);
+                MainMap.ShowPhase(Boss.NextPhase());
+            } else {
+                ShowPhaseDisplay(Boss.PossiblePhases(StyleType.Ranged));
+            }
 
-            MainCanvas.BackgroundImage = MainMap.GetBitmap();
-            System.Console.Beep();
+        }
+
+
+        private void HidePhaseDisplay() {
+            Layout.Controls.Remove(Layout.GetControlFromPosition(0, 0));
+    
+            Layout.RowCount--;
+            Layout.RowStyles.RemoveAt(0);
+
+            PhaseDisplayOn = false;
+
         }
 
         private void ShowPhaseDisplay(List<Zulrah.Phase> Phases) {
             var PossiblePhaseDisplay = new TableLayoutPanel() {
                 Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Top
-        };
+                ,Name = "PossiblePhaseDisplay"
+            };
             PossiblePhaseDisplay.Margin = new Padding(0);
 
             PossiblePhaseDisplay.RowCount++;
@@ -74,13 +88,11 @@ namespace Zulrah_Rotation_Assistant {
 
                 var PhaseCanvas = new Panel() {
                     Dock = DockStyle.Fill,
-                    BorderStyle = BorderStyle.Fixed3D
                 };
 
                 var PhaseMap = new MapRenderEngine(ref PhaseCanvas);
 
-                PhaseMap.ShowElement(Phases[i].MapBossLocation, Phases[i].GetPhaseColor());
-                PhaseMap.ShowElement(Phases[i].MapPlayerLocation, System.Drawing.Color.Purple);
+                PhaseMap.ShowPhase(Phases[i]);
 
                 PossiblePhaseDisplay.Controls.Add(PhaseCanvas, i, 0);
             }
@@ -92,6 +104,8 @@ namespace Zulrah_Rotation_Assistant {
             });
 
             Layout.Controls.Add(PossiblePhaseDisplay, 0, 0);
+
+            PhaseDisplayOn = true;
         }
     }
 }

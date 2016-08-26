@@ -38,10 +38,9 @@
         private bool isLastPhase() {
             return RotationFound && PossibleRotations[0].Count - 1 <= PhaseIndex;
         }
-        
         public List<List<Phase>> PossibleRotations { get; private set; }
         public List<List<Phase>> Rotations { get; private set; }
-        public Phase PreviousPhase { get; private set; }
+
         public Phase CurrentPhase { get; private set; }
 
     public Zulrah() {
@@ -56,6 +55,8 @@
             }
 
             PossibleRotations = Rotations;
+
+            CurrentPhase = Rotations[0].First();
         }
 
         /// <summary>
@@ -64,6 +65,8 @@
         public void InitialPhase() {
             PhaseIndex = 0;
             PossibleRotations = Rotations;
+
+            CurrentPhase = Rotations[0].First();
         }
 
         /// <summary>
@@ -93,8 +96,6 @@
             if(isLastPhase()) {
                 PhaseIndex = 0;
             }
-
-            PreviousPhase = CurrentPhase;
 
             if (RotationFound) {
                 CurrentPhase = PossibleRotations.Select(P => P[PhaseIndex + 1]).Single();
