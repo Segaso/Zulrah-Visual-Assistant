@@ -1,93 +1,91 @@
 ﻿using System.Speech.Recognition;
-using System.Speech.Synthesis;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System;
+using System.Speech.Synthesis;
 
 namespace Zulrah_Rotation_Assistant {
     public partial class Main : Form {
-        private bool PhasesDisplayOn;
-        private MapRenderEngine MainMap;
-        private Zulrah Boss;
-        private SpeechRecognitionEngine SpeechEngine;
-        private SpeechSynthesizer SpeechSynth = new SpeechSynthesizer();
-
+        private bool _phasesDisplayOn;
+        private readonly MapRenderEngine _mainMap;
+        private readonly Zulrah _boss;
+        private readonly SpeechSynthesizer _speechSynthesizer;
         public Main() {
             InitializeComponent();
+            _mainMap = new MapRenderEngine(ref MainCanvas);
 
-            var Test = Properties.Settings.Default.PlayerColor;
-            MainMap = new MapRenderEngine(ref MainCanvas);
+            _boss = new Zulrah();
+            _boss.InitialPhase();
 
-            Boss = new Zulrah();
-            Boss.InitialPhase();
-
-            MainMap.ShowPhase(Boss.CurrentPhase);
+            _mainMap.ShowPhase(_boss.CurrentPhase);
 
             try {
-                Boss.NextPhase();
+                _boss.NextPhase();
             } catch(InvalidOperationException) {
-                var Phases = Boss.PossiblePhases(Boss.CurrentPhase.Style);
-                ShowPhaseDisplay(Phases);
+                var phases = _boss.PossiblePhases(_boss.CurrentPhase.Style);
+                ShowPhaseDisplay(phases);
             }
 
-            var Language = new CultureInfo("en-us");
+            var language = new CultureInfo("en-us");
 
-            SpeechEngine = new SpeechRecognitionEngine(Language);
-            SpeechEngine.SetInputToDefaultAudioDevice();
-            SpeechEngine.SpeechRecognized += SpeechEngine_SpeechRecognized;
+            _speechSynthesizer = new SpeechSynthesizer {Rate = 4};
 
-            var Commands = new Choices();
+            var speechEngine = new SpeechRecognitionEngine(language);
+            speechEngine.SetInputToDefaultAudioDevice();
+            speechEngine.SpeechRecognized += SpeechEngine_SpeechRecognized;
 
-            Commands.Add("Speech Off");
-            Commands.Add("Speech On");
-            Commands.Add("Next");
-            Commands.Add("Reset");
-            Commands.Add("Blue");
-            Commands.Add("Red");
-            Commands.Add("Green");
-            Commands.Add("Top");
+            var commands = new Choices();
 
-            var GramarCommands = new GrammarBuilder();
-            GramarCommands.Append(Commands);
+            commands.Add("Next");
+            commands.Add("Reset");
+            commands.Add("Blue");
+            commands.Add("Red");
+            commands.Add("Green");
+            commands.Add("Top");
+            commands.Add("Right");
 
-            SpeechEngine.LoadGrammarAsync(new Grammar(GramarCommands));
-            SpeechEngine.RecognizeAsync(RecognizeMode.Multiple);
+            var gramarCommands = new GrammarBuilder();
+            gramarCommands.Append(commands);
+
+            speechEngine.LoadGrammarAsync(new Grammar(gramarCommands));
+            speechEngine.RecognizeAsync(RecognizeMode.Multiple);
 
         }
 
-        private void btnNextPhase_Click(object sender, EventArgs e) {
-        }
-
-        private void NextPhase(StyleType Style) {
-            if (!Boss.PhaseDescisionInputRequired) {
+        private void NextPhase(StyleType style) {
+            if (!_boss.PhaseDescisionInputRequired) {
                 try {
-                    MainMap.ShowPhase(Boss.NextPhase());
+                    _mainMap.ShowPhase(_boss.NextPhase());
 
-                    if (PhasesDisplayOn) {
+                    if (_phasesDisplayOn) {
                         HidePhaseDisplay();
                     }
 
                 } catch (InvalidOperationException) {
-                    var Phases = Boss.PossiblePhases(Boss.CurrentPhase.Style);
-                    ShowPhaseDisplay(Phases);
+                    var phases = _boss.PossiblePhases(_boss.CurrentPhase.Style);
+                    ShowPhaseDisplay(phases);
                 }
             } else {
-                MainMap.ShowPhase(Boss.NextPhase(Style));
-                if (PhasesDisplayOn) {
+                _mainMap.ShowPhase(_boss.NextPhase(style));
+                if (_phasesDisplayOn) {
                     HidePhaseDisplay();
                 }
             }
+
+            _speechSynthesizer.SpeakAsync(_boss.CurrentPhase.GetNotes());
         }
 
 
-        private void NextPhase(BossLocationType Location) {
-            if (Boss.PhaseSameAttackStyle) {
-                MainMap.ShowPhase(Boss.NextPhase(Location));
-                if (PhasesDisplayOn) {
+        private void NextPhase(BossLocationType bossLocation) {
+            if (_boss.PhaseSameAttackStyle) {
+                _mainMap.ShowPhase(_boss.NextPhase(bossLocation));
+                if (_phasesDisplayOn) {
                     HidePhaseDisplay();
                 }
             }
+
+            _speechSynthesizer.SpeakAsync(_boss.CurrentPhase.GetNotes());
         }
 
         private void HidePhaseDisplay() {
@@ -96,37 +94,37 @@ namespace Zulrah_Rotation_Assistant {
             MainLayout.RowCount--;
             MainLayout.RowStyles.RemoveAt(0);
 
-            PhasesDisplayOn = false;
+            _phasesDisplayOn = false;
         }
 
-        private void ShowPhaseDisplay(List<Zulrah.Phase> Phases) {
-            var PossiblePhaseDisplay = new TableLayoutPanel() {
-                Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Top
-                ,Name = "PossiblePhaseDisplay"
+        private void ShowPhaseDisplay(List<Zulrah.Phase> phases) {
+            var possiblePhaseDisplay = new TableLayoutPanel {
+                Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Top,
+                Name = "PossiblePhaseDisplay",
+                Margin = new Padding(0)
             };
-            PossiblePhaseDisplay.Margin = new Padding(0);
 
-            PossiblePhaseDisplay.RowCount++;
-            PossiblePhaseDisplay.RowStyles.Add(new RowStyle() {
+            possiblePhaseDisplay.RowCount++;
+            possiblePhaseDisplay.RowStyles.Add(new RowStyle() {
                 SizeType = SizeType.AutoSize
             });
 
-            for(int i = 0; i < Phases.Count; i++) {
-                PossiblePhaseDisplay.ColumnCount++;
-                PossiblePhaseDisplay.ColumnStyles.Add(new ColumnStyle() {
+            for(int i = 0; i < phases.Count; i++) {
+                possiblePhaseDisplay.ColumnCount++;
+                possiblePhaseDisplay.ColumnStyles.Add(new ColumnStyle() {
                     SizeType = SizeType.Percent,
-                    Width = Convert.ToSingle(1.0 / Phases.Count)
+                    Width = Convert.ToSingle(1.0 / phases.Count)
                 });
 
-                var PhaseCanvas = new Panel() {
+                var phaseCanvas = new Panel() {
                     Dock = DockStyle.Fill,
                 };
 
-                var PhaseMap = new MapRenderEngine(ref PhaseCanvas);
+                var phaseMap = new MapRenderEngine(ref phaseCanvas);
 
-                PhaseMap.ShowPhase(Phases[i]);
+                phaseMap.ShowPhase(phases[i]);
 
-                PossiblePhaseDisplay.Controls.Add(PhaseCanvas, i, 0);
+                possiblePhaseDisplay.Controls.Add(phaseCanvas, i, 0);
             }
 
             MainLayout.RowCount++;
@@ -135,46 +133,50 @@ namespace Zulrah_Rotation_Assistant {
                 Height = 30
             });
 
-            MainLayout.Controls.Add(PossiblePhaseDisplay, 0, 0);
+            MainLayout.Controls.Add(possiblePhaseDisplay, 0, 0);
 
-            PhasesDisplayOn = true;
+            _phasesDisplayOn = true;
         }
 
         private void SpeechEngine_SpeechRecognized(object sender, SpeechRecognizedEventArgs e) {
-            string VoiceCommand = e.Result.Text;
+            string voiceCommand = e.Result.Text;
             float confidence = e.Result.Confidence;
 
-            switch (VoiceCommand) {
+            if(confidence > .5)
+            switch (voiceCommand) {
                case "Next":
-                    NextPhase(Boss.CurrentPhase.Style);
+                    NextPhase(_boss.CurrentPhase.Style);
                     break;
                 case "Top":
                     NextPhase(BossLocationType.N);
+                    break;
+                case "Right":
+                    NextPhase(BossLocationType.E);
                     break;
                 case "Red":
                     NextPhase(StyleType.Melee);
                     break;
                 case "Blue":
-                    NextPhase(StyleType.Melee);
+                    NextPhase(StyleType.Mage);
                     break;
                 case "Green":
                     NextPhase(StyleType.Ranged);
                     break;
                 case "Reset":
-                    Boss.InitialPhase();
+                    _boss.InitialPhase();
 
-                    MainMap.ShowPhase(Boss.CurrentPhase);
+                    _mainMap.ShowPhase(_boss.CurrentPhase);
 
                     try {
-                        Boss.NextPhase();
+                        _boss.NextPhase();
                     } catch (InvalidOperationException) {
-                        var Phases = Boss.PossiblePhases(Boss.CurrentPhase.Style);
-                        if (!PhasesDisplayOn) {
-                            ShowPhaseDisplay(Phases);
+                        var phases = _boss.PossiblePhases(_boss.CurrentPhase.Style);
+                        if (!_phasesDisplayOn) {
+                            ShowPhaseDisplay(phases);
                         }
                     }
                     break;
-            };
+            }
         }
     }
 }

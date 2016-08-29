@@ -12,7 +12,7 @@
       <Value Profile="(Default)">90, 254, 0</Value>
     </Setting>
     <Setting Name="JadColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">187, 37, 21</Value>
+      <Value Profile="(Default)">255, 128, 0</Value>
     </Setting>
     <Setting Name="PassiveColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">90, 250, 0</Value>

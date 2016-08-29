@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using Svg;
 using System.Windows.Forms;
-using System.Linq;
 using System.Collections.Generic;
 using System;
 
@@ -12,88 +11,95 @@ namespace Zulrah_Rotation_Assistant {
     public class MapRenderEngine {
 
         //Allow the map to be oriented in either direction
-        private bool FlipMap;
-        private SvgDocument Map;
-        private Panel MapCanvas;
-        private List<string> PreviousElementIDs;
-        private static Color PlayerColor = Properties.Settings.Default.PlayerColor;
-        private static Color MapColor = Properties.Settings.Default.MapBackgroundColor;
+        private readonly bool _flipMap;
+        private readonly SvgDocument _map;
+        private readonly Panel _mapCanvas;
+        private List<string> _previousElementIDs;
+        private static readonly Color PlayerColor = Properties.Settings.Default.PlayerColor;
+        private static readonly Color MapColor = Properties.Settings.Default.MapBackgroundColor;
         
-        public MapRenderEngine(ref Panel Canvas, bool RotateMapOrientation = false) {
-            MapCanvas = Canvas;
+        public MapRenderEngine(ref Panel canvas, bool rotateMapOrientation = false) {
+            _mapCanvas = canvas;
 
-            Map = SvgDocument.Open("ZulrahMap.svg");
-            Map.Height = MapCanvas.Height;
-            Map.Width = MapCanvas.Width;
-            FlipMap = RotateMapOrientation;
+            _map = SvgDocument.Open("ZulrahMap.svg");
+            _map.Height = _mapCanvas.Height;
+            _map.Width = _mapCanvas.Width;
+            _flipMap = rotateMapOrientation;
 
-            var Island = Map.GetElementById("ZulrahIsland");
-            Island.Fill = new SvgColourServer(Properties.Settings.Default.ZulrahIsland_Color);
-            Island.Stroke = new SvgColourServer(Properties.Settings.Default.ZulrahIsland_BorderColor);
+            var island = _map.GetElementById("ZulrahIsland");
+            island.Fill = new SvgColourServer(Properties.Settings.Default.ZulrahIsland_Color);
+            island.Stroke = new SvgColourServer(Properties.Settings.Default.ZulrahIsland_BorderColor);
 
-            MapCanvas.BackColor = MapColor;
+            _mapCanvas.BackColor = MapColor;
 
-            MapCanvas.SizeChanged += Canvas_SizeChanged;
+            _mapCanvas.SizeChanged += Canvas_SizeChanged;
         }
 
-        private void Canvas_SizeChanged(object sender, System.EventArgs e) {
-            var Canvas = (Panel)sender;
+        private void Canvas_SizeChanged(object sender, EventArgs e) {
+            var canvas = (Panel)sender;
 
-            Map.Height = Map.Height = Canvas.Height;
-            Map.Width = Canvas.Width;
+            _map.Height = _map.Height = canvas.Height;
+            _map.Width = canvas.Width;
 
-            Canvas.BackgroundImage = GetBitmap();
+            canvas.BackgroundImage = GetBitmap();
         }
 
         public Bitmap GetBitmap() {
-            Bitmap MapImage;
-            MapImage = Map.Draw();
+            var mapImage = _map.Draw();
 
-            if (FlipMap) {
-                MapImage.RotateFlip(RotateFlipType.Rotate180FlipX);
+            if (_flipMap) {
+                mapImage.RotateFlip(RotateFlipType.Rotate180FlipX);
             }
-            return MapImage;
+            return mapImage;
         }
 
-        public void ShowPhase(Zulrah.Phase Phase) {
+        public void ShowPhase(Zulrah.Phase phase) {
             try {
-                foreach (string ElementID in PreviousElementIDs) {
-                    HideElement(ElementID);
+                foreach (string elementId in _previousElementIDs) {
+                    HideElement(elementId);
                 }
             }catch(NullReferenceException) {
-                PreviousElementIDs = new List<string>();
+                _previousElementIDs = new List<string>();
             }
 
 
-            PreviousElementIDs.Clear();
+            _previousElementIDs.Clear();
 
-            var BossObject = Map.GetElementById(Phase.MapBossLocation);
-            var PlayerObject = Map.GetElementById(Phase.MapPlayerLocation);
+            var bossObject = _map.GetElementById(phase.MapBossLocation);
+            var playerObject = _map.GetElementById(phase.MapPlayerLocation);
 
-            PreviousElementIDs.Add(Phase.MapBossLocation);
-            PreviousElementIDs.Add(Phase.MapPlayerLocation);
-            
+            _previousElementIDs.Add(phase.MapBossLocation);
+            _previousElementIDs.Add(phase.MapPlayerLocation);
 
-            BossObject.FillOpacity = 255;
-            PlayerObject.FillOpacity = 255;
+            if (phase.Style == StyleType.Jad) {
+                bossObject.StrokeOpacity = 255;
+                bossObject.Stroke = new SvgColourServer(phase.GetPhaseColor(phase.JadStyle));
+            }
+            else {
+                bossObject.StrokeOpacity = 0;
+            }
 
-            PlayerObject.Fill = new SvgColourServer(PlayerColor);
-            BossObject.Fill = new SvgColourServer(Phase.GetPhaseColor());
+            bossObject.FillOpacity = 255;
+            playerObject.FillOpacity = 255;
 
-            MapCanvas.BackgroundImage = GetBitmap();
+            playerObject.Fill = new SvgColourServer(PlayerColor);
+            bossObject.Fill = new SvgColourServer(phase.GetPhaseColor());
+
+            _mapCanvas.BackgroundImage = GetBitmap();
         }
 
-        public void HideElement(string Element) {
-            var MapObject = Map.GetElementById(Element);
-            MapObject.FillOpacity = 0;
+        public void HideElement(string element) {
+            var mapObject = _map.GetElementById(element);
+            mapObject.FillOpacity = 0;
+            mapObject.StrokeOpacity = 0;
         }
 
         /// <summary>
         /// Makes sure that the image does not exceed the maximum size, while preserving aspect ratio.
         /// </summary>
-        public void AdjustMapSize(int Height, int Width) {
-            Map.Height = Height;
-            Map.Width = Width;
+        public void AdjustMapSize(int height, int width) {
+            _map.Height = height;
+            _map.Width = width;
         }
     }
 }

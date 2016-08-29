@@ -23,29 +23,54 @@ namespace Zulrah_Rotation_Assistant {
             [JsonProperty("Notes")]
             public string Notes;
 
-            public string MapBossLocation { get { return string.Format("BP_{0}", BossLocation.ToString()); } }
-            public string MapPlayerLocation { get { return string.Format("PP_{0}", PlayerLocation.ToString()); } }
+            public string MapBossLocation => $"BP_{BossLocation}";
+            public string MapPlayerLocation => $"PP_{PlayerLocation}";
 
             public Color GetPhaseColor() {
-                Color ColorEquvilent = new Color(); 
-                switch(Style) {
+                return GetPhaseColor(Style);
+            }
+
+            public Color GetPhaseColor(StyleType attackStyle) {
+                Color colorEquvilent = new Color(); 
+                switch(attackStyle) {
                     case StyleType.Mage:
-                        ColorEquvilent = Properties.Settings.Default.MageColor;
+                        colorEquvilent = Properties.Settings.Default.MageColor;
                         break;
                     case StyleType.Ranged:
-                        ColorEquvilent = Properties.Settings.Default.RangeColor;
+                        colorEquvilent = Properties.Settings.Default.RangeColor;
                         break;
                     case StyleType.Melee:
-                        ColorEquvilent = Properties.Settings.Default.MeleeColor;
+                        colorEquvilent = Properties.Settings.Default.MeleeColor;
                         break;
                     case StyleType.Passive:
-                        ColorEquvilent = Properties.Settings.Default.PassiveColor;
+                        colorEquvilent = Properties.Settings.Default.PassiveColor;
                         break;
                     case StyleType.Jad:
-                        ColorEquvilent = Properties.Settings.Default.JadColor;
+                        colorEquvilent = Properties.Settings.Default.JadColor;
                         break;
                 }
-                return ColorEquvilent;
+                return colorEquvilent;
+            }
+
+
+            public string GetNotes() {
+                string locationSpeech = "";
+                switch (BossLocation) {
+                    case BossLocationType.N:
+                        locationSpeech = "Top";
+                        break;
+                    case BossLocationType.S:
+                        locationSpeech = "Middle";
+                        break;
+                    case BossLocationType.W:
+                        locationSpeech = "Left";
+                        break;
+                    case BossLocationType.E:
+                        locationSpeech = "Right";
+                        break;
+                }
+
+                return $"Boss Style {Style} Position {locationSpeech} ";
             }
 
         }

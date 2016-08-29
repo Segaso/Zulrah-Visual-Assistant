@@ -1,10 +1,10 @@
-﻿namespace Zulrah_Rotation_Assistant {
-    using System.Collections.Generic;
-    using Newtonsoft.Json;
-    using System.Linq;
-    using System.IO;
-    using System;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Newtonsoft.Json;
 
+namespace Zulrah_Rotation_Assistant {
     public enum StyleType {
         Passive,
         Melee,
@@ -28,18 +28,18 @@
         NE,
         NW,
         SE,
-        SW,
+        SW
     }
 
     public partial class Zulrah {
-        private int PhaseIndex;
-        public bool RotationFound { get { return PossibleRotations.Count == 1; } }
+        private int _phaseIndex;
+        public bool RotationFound => PossibleRotations.Count == 1;
 
-        private bool isLastPhase() {
-            return RotationFound && PossibleRotations[0].Count - 1 <= PhaseIndex;
+        private bool IsLastPhase() {
+            return RotationFound && PossibleRotations[0].Count - 1 <= _phaseIndex;
         }
         public List<List<Phase>> PossibleRotations { get; private set; }
-        public List<List<Phase>> Rotations { get; private set; }
+        public List<List<Phase>> Rotations { get; }
 
         public Phase CurrentPhase { get; private set; }
 
@@ -47,14 +47,12 @@
         public bool PhaseSameAttackStyle { get; private set; }
 
         public Zulrah() {
-            var Serializer = new JsonSerializer();
-
             Rotations = new List<List<Phase>>();
-            foreach (string File in Directory.GetFiles("Rotations")) {
-                string JsonString = new StreamReader(File).ReadToEnd();
-                var SingleRotation = JsonConvert.DeserializeObject<List<Phase>>(JsonString);
+            foreach (string file in Directory.GetFiles("Rotations")) {
+                string jsonString = new StreamReader(file).ReadToEnd();
+                var singleRotation = JsonConvert.DeserializeObject<List<Phase>>(jsonString);
 
-                Rotations.Add(SingleRotation);
+                Rotations.Add(singleRotation);
             }
 
             PossibleRotations = Rotations;
@@ -66,7 +64,7 @@
         /// Intializes/Resets the Zulrah Fight
         /// </summary>
         public void InitialPhase() {
-            PhaseIndex = 0;
+            _phaseIndex = 0;
             PossibleRotations = Rotations;
 
             CurrentPhase = Rotations[0].First();
@@ -75,44 +73,36 @@
         /// <summary>
         /// Used to figure out which zulrah rotation you are on. 
         /// </summary>
-        /// <param name="CurrentStyle">What Phase you're being attacked by currently.</param>
+        /// <param name="currentStyle">What Phase you're being attacked by currently.</param>
         /// <returns></returns>
-        public List<Phase> PossiblePhases(StyleType CurrentStyle) {
-            PossibleRotations = PossibleRotations.Where(R => R[PhaseIndex].Style == CurrentStyle).ToList();
+        public List<Phase> PossiblePhases(StyleType currentStyle) {
+            PossibleRotations = PossibleRotations.Where(r => r[_phaseIndex].Style == currentStyle).ToList();
 
             //Get only distinct phases (otherwise you'd get two melee phases with same positioning for first round).
-            var Result = PossibleRotations.Select(P => P[PhaseIndex + 1])
-                                          .GroupBy(P => new { P.BossLocation, P.Style })
-                                          .Select(P => P.First()).ToList<Phase>();
+            var result = PossibleRotations.Select(p => p[_phaseIndex + 1])
+                                          .GroupBy(p => new { p.BossLocation, p.Style })
+                                          .Select(p => p.First()).ToList();
 
-            PhaseIndex++;
+            _phaseIndex++;
 
-            if (Result.Count != Result.GroupBy(S => S.Style).Count()) {
-                PhaseSameAttackStyle = true;
-            } else {
-                PhaseSameAttackStyle = false;
-            }
+            PhaseSameAttackStyle = result.Count != result.GroupBy(s => s.Style).Count();
 
-            return Result;
+            return result;
         }
 
-        public List<Phase> PossiblePhases(BossLocationType BossLocation) {
-            PossibleRotations = PossibleRotations.Where(R => R[PhaseIndex].BossLocation == BossLocation).ToList();
+        public List<Phase> PossiblePhases(BossLocationType bossLocation) {
+            PossibleRotations = PossibleRotations.Where(r => r[_phaseIndex].BossLocation == bossLocation).ToList();
 
             //Get only distinct phases (otherwise you'd get two melee phases with same positioning for first round).
-            var Result = PossibleRotations.Select(P => P[PhaseIndex + 1])
-                                          .GroupBy(P => new { P.BossLocation, P.Style })
-                                          .Select(P => P.First()).ToList<Phase>();
+            var result = PossibleRotations.Select(p => p[_phaseIndex + 1])
+                                          .GroupBy(p => new { p.BossLocation, p.Style })
+                                          .Select(p => p.First()).ToList();
 
-            PhaseIndex++;
+            _phaseIndex++;
 
-            if (Result.Count != Result.GroupBy(S => S.Style).Count()) {
-                PhaseSameAttackStyle = true;
-            } else {
-                PhaseSameAttackStyle = false;
-            }
+            PhaseSameAttackStyle = result.Count != result.GroupBy(s => s.Style).Count();
 
-            return Result;
+            return result;
         }
 
         /// <summary>
@@ -121,31 +111,31 @@
         /// <returns>The next phase in Zulrah's rotation</returns>
         public Phase NextPhase() {
             //Reset to first phase if you hit the end of the rotation and are still killing zulrah.
-            if(isLastPhase()) {
-                PhaseIndex = 0;
+            if(IsLastPhase()) {
+                _phaseIndex = 0;
             }
 
             if (RotationFound) {
-                CurrentPhase = PossibleRotations.Select(P => P[PhaseIndex + 1]).Single();
+                CurrentPhase = PossibleRotations.Select(p => p[_phaseIndex + 1]).Single();
             } else {
                 PhaseDescisionInputRequired = true;
                 throw new InvalidOperationException();
             }
 
-            PhaseIndex++;
+            _phaseIndex++;
 
             return CurrentPhase;
         }
 
-        public Phase NextPhase(StyleType PhaseChosen) {
-            CurrentPhase = PossiblePhases(PhaseChosen).Single();
+        public Phase NextPhase(StyleType phaseChosen) {
+            CurrentPhase = PossiblePhases(phaseChosen).Single();
             PhaseDescisionInputRequired = false;
 
             return CurrentPhase;
         }
 
-        public Phase NextPhase(BossLocationType PhaseChosen) {
-            CurrentPhase = PossiblePhases(PhaseChosen).Single();
+        public Phase NextPhase(BossLocationType phaseChosen) {
+            CurrentPhase = PossiblePhases(phaseChosen).Single();
 
             PhaseDescisionInputRequired = false;
 
