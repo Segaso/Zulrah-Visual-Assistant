@@ -22,35 +22,41 @@ namespace Zulrah_Rotation_Assistant {
 
             try {
                 _boss.NextPhase();
-            } catch(InvalidOperationException) {
+            } catch (InvalidOperationException) {
                 var phases = _boss.PossiblePhases(_boss.CurrentPhase.Style);
                 ShowPhaseDisplay(phases);
             }
 
             var language = new CultureInfo("en-us");
 
-            _speechSynthesizer = new SpeechSynthesizer {Rate = 4};
+            _speechSynthesizer = new SpeechSynthesizer { Rate = 4 };
 
             var speechEngine = new SpeechRecognitionEngine(language);
-            speechEngine.SetInputToDefaultAudioDevice();
-            speechEngine.SpeechRecognized += SpeechEngine_SpeechRecognized;
 
-            var commands = new Choices();
+            try {
+                speechEngine.SetInputToDefaultAudioDevice();
 
-            commands.Add("Next");
-            commands.Add("Reset");
-            commands.Add("Blue");
-            commands.Add("Red");
-            commands.Add("Green");
-            commands.Add("Top");
-            commands.Add("Right");
 
-            var gramarCommands = new GrammarBuilder();
-            gramarCommands.Append(commands);
+                speechEngine.SpeechRecognized += SpeechEngine_SpeechRecognized;
 
-            speechEngine.LoadGrammarAsync(new Grammar(gramarCommands));
-            speechEngine.RecognizeAsync(RecognizeMode.Multiple);
+                var commands = new Choices();
 
+                commands.Add("Next");
+                commands.Add("Reset");
+                commands.Add("Blue");
+                commands.Add("Red");
+                commands.Add("Green");
+                commands.Add("Top");
+                commands.Add("Right");
+
+                var gramarCommands = new GrammarBuilder();
+                gramarCommands.Append(commands);
+
+                speechEngine.LoadGrammarAsync(new Grammar(gramarCommands));
+                speechEngine.RecognizeAsync(RecognizeMode.Multiple);
+            } catch (Exception) {
+                //No Microphone Detected
+            }
         }
 
         private void NextPhase(StyleType style) {
@@ -90,7 +96,7 @@ namespace Zulrah_Rotation_Assistant {
 
         private void HidePhaseDisplay() {
             MainLayout.Controls.Remove(MainLayout.GetControlFromPosition(0, 0));
-    
+
             MainLayout.RowCount--;
             MainLayout.RowStyles.RemoveAt(0);
 
@@ -109,7 +115,7 @@ namespace Zulrah_Rotation_Assistant {
                 SizeType = SizeType.AutoSize
             });
 
-            for(int i = 0; i < phases.Count; i++) {
+            for (int i = 0; i < phases.Count; i++) {
                 possiblePhaseDisplay.ColumnCount++;
                 possiblePhaseDisplay.ColumnStyles.Add(new ColumnStyle() {
                     SizeType = SizeType.Percent,
@@ -142,27 +148,32 @@ namespace Zulrah_Rotation_Assistant {
             string voiceCommand = e.Result.Text;
             float confidence = e.Result.Confidence;
 
-            if(confidence > .5)
-            switch (voiceCommand) {
-               case "Next":
+            if (confidence > .5) {
+                if (!_boss.PhaseDescisionInputRequired && voiceCommand == "Next") {
                     NextPhase(_boss.CurrentPhase.Style);
-                    break;
-                case "Top":
-                    NextPhase(BossLocationType.N);
-                    break;
-                case "Right":
-                    NextPhase(BossLocationType.E);
-                    break;
-                case "Red":
-                    NextPhase(StyleType.Melee);
-                    break;
-                case "Blue":
-                    NextPhase(StyleType.Mage);
-                    break;
-                case "Green":
-                    NextPhase(StyleType.Ranged);
-                    break;
-                case "Reset":
+                } else if (_boss.PhaseDescisionInputRequired && !_boss.PhaseSameAttackStyle) {
+                    switch (voiceCommand) {
+                        case "Red":
+                            NextPhase(StyleType.Melee);
+                            break;
+                        case "Blue":
+                            NextPhase(StyleType.Mage);
+                            break;
+                        case "Green":
+                            NextPhase(StyleType.Ranged);
+                            break;
+                    }
+                } else if (_boss.PhaseDescisionInputRequired && _boss.PhaseSameAttackStyle) {
+                    switch (voiceCommand) {
+
+                        case "Top":
+                            NextPhase(BossLocationType.N);
+                            break;
+                        case "Right":
+                            NextPhase(BossLocationType.E);
+                            break;
+                    }
+                } else if (voiceCommand == "Reset") {
                     _boss.InitialPhase();
 
                     _mainMap.ShowPhase(_boss.CurrentPhase);
@@ -175,8 +186,9 @@ namespace Zulrah_Rotation_Assistant {
                             ShowPhaseDisplay(phases);
                         }
                     }
-                    break;
+                }
             }
         }
     }
 }
+
