@@ -13,20 +13,23 @@ namespace Zulrah_Rotation_Assistant {
             private static ZulrahSingleton _instance;
 
             private readonly IList<Rotation> _rotations;
+            private IList<Rotation> _possibleRotations;
 
-            private Phase _currentPhase;
-            private IList<Phase> _possiblePhases;
+            private int _phaseIndex;
+            private bool RotationFound => _possibleRotations.Count == 1;
+            private bool PhaseDecisionRequired => GetPossiblePhases().Count != 1;
 
             private ZulrahSingleton() {
                 _rotations = new List<Rotation>();
                 LoadRotations();
-                
+
                 //Initilize the _possiblePhases to the starting position of  zulrah (passive phase with 3 decision trees)
-                _possiblePhases = _rotations.Select(p => p.Phases.First()).ToList();
+                Reset();
             }
 
             public void Reset() {
-                _possiblePhases = _rotations.Select(p => p.Phases.First()).ToList();
+                _phaseIndex = 0;
+                _possibleRotations = _rotations;
             }
 
             public static ZulrahSingleton Instance => _instance ?? (_instance = new ZulrahSingleton());
@@ -45,16 +48,45 @@ namespace Zulrah_Rotation_Assistant {
                 }
             }
 
-            /// <summary>
-            /// 
-            /// </summary>
-            public void NextPhase(StyleType? attackType, BossLocationType? bossLocation) {
-                if (_possiblePhases.Count == 1) {
-                    OnPhaseChanged?.Invoke(_currentPhase, EventArgs.Empty);
+            public void NextPhase() {
+                if (!PhaseDecisionRequired) {
+                    _phaseIndex++;
+                    var phase = _possibleRotations.Select(S => S.Phases[_phaseIndex]).First();
+                
+                    OnPhaseChanged?.Invoke(phase, EventArgs.Empty);
+                } else {
+                    OnPhaseDecisionRequired?.Invoke(GetPossiblePhases(), EventArgs.Empty);
                 }
-                else {
-                    OnPhaseChanged?.Invoke(_possiblePhases, EventArgs.Empty);
+            }
+
+            public void NextPhaseByStyle(StyleType bossStyle) {
+                if (PhaseDecisionRequired) {
+                    _possibleRotations = _possibleRotations.Where(r => r.Phases[_phaseIndex + 1].Style == bossStyle).ToList();
+
+                    var phases = GetPossiblePhases();
+
+                    if (phases.Count == 1) {
+                        _phaseIndex++;
+                    }
                 }
+            }
+
+            public void NextPhaseByLocation(BossLocationType bossLocation) {
+                if (PhaseDecisionRequired) {
+                    _possibleRotations = _possibleRotations.Where(r => r.Phases[_phaseIndex + 1].BossLocation == bossLocation).ToList();
+
+                    var phases = GetPossiblePhases();
+
+                    if (phases.Count == 1) {
+                        _phaseIndex++;
+                    }
+                }
+            }
+
+            private IList<Phase> GetPossiblePhases() {
+                return _possibleRotations.Select(p => p.Phases[_phaseIndex + 1])
+                              .GroupBy(p => new { p.BossLocation, p.Style })
+                              .Select(p => p.First()).ToList();
             }
         }
     }
