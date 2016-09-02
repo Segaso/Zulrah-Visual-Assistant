@@ -1,58 +1,72 @@
-[{
-		"Style": "Passive",
-		"Boss_Location": "S",
-		"Player_Location": "SW",
-		"Notes": ""
-	}, {
-		"Style": "Melee",
-		"Boss_Location": "S",
-		"Player_Location": "SW",
-		"Notes": ""
-	}, {
-		"Style": "Mage",
-		"Boss_Location": "S",
-		"Player_Location": "NE",
-		"Notes": ""
-	}, {
-		"Style": "Ranged",
-		"Boss_Location": "N",
-		"Player_Location": "NE",
-		"Notes": ""
-	}, {
-		"Style": "Melee",
-		"Boss_Location": "S",
-		"Player_Location": "NE",
-		"Notes": ""
-	}, {
-		"Style": "Mage",
-		"Boss_Location": "E",
-		"Player_Location": "NE",
-		"Notes": ""
-	}, {
-		"Style": "Ranged",
-		"Boss_Location": "N",
-		"Player_Location": "NW",
-		"Notes": ""
-	}, {
-		"Style": "Mage",
-		"Boss_Location": "N",
-		"Player_Location": "NE",
-		"Notes": ""
-	}, {
-		"Style": "Jad",
-		"Boss_Location": "E",
-		"Player_Location": "SE",
-		"Jad_Style": "Ranged",
-		"Notes": ""
-	}, {
-		"Style": "Melee",
-		"Boss_Location": "S",
-		"Player_Location": "SE",
-		"Notes": ""
-	}, {
-		"Style": "Ranged",
-		"Boss_Location": "S",
-		"Player_Location": "SE",
-		"Notes": ""
-	}
-]
+{
+  "Name": "Rotation 1",
+  "Phases": [
+    {
+      "Style": "Passive",
+      "Boss_Location": "S",
+      "Player_Location": "SW",
+      "Notes": ""
+    },
+    {
+      "Style": "Melee",
+      "Boss_Location": "S",
+      "Player_Location": "SW",
+      "Notes": ""
+    },
+    {
+      "Style": "Mage",
+      "Boss_Location": "S",
+      "Player_Location": "NE",
+      "Notes": ""
+    },
+    {
+      "Style": "Ranged",
+      "Boss_Location": "N",
+      "Player_Location": "NE",
+      "Notes": ""
+    },
+    {
+      "Style": "Melee",
+      "Boss_Location": "S",
+      "Player_Location": "NE",
+      "Notes": ""
+    },
+    {
+      "Style": "Mage",
+      "Boss_Location": "E",
+      "Player_Location": "NE",
+      "Notes": ""
+    },
+    {
+      "Style": "Ranged",
+      "Boss_Location": "N",
+      "Player_Location": "NW",
+      "Notes": ""
+    },
+    {
+      "Style": "Mage",
+      "Boss_Location": "N",
+      "Player_Location": "NE",
+      "Notes": ""
+    },
+    {
+      "Style": "Jad",
+      "Boss_Location": "E",
+      "Player_Location": "SE",
+      "Jad_Style": "Ranged",
+      "Notes": ""
+    },
+    {
+      "Style": "Melee",
+      "Boss_Location": "S",
+      "Player_Location": "SE",
+      "Notes": ""
+    },
+    {
+      "Style": "Ranged",
+      "Boss_Location": "S",
+      "Player_Location": "SE",
+      "Notes": ""
+    }
+  ]
+}

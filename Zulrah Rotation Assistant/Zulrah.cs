@@ -5,41 +5,15 @@ using System.Linq;
 using Newtonsoft.Json;
 
 namespace Zulrah_Rotation_Assistant {
-    public enum StyleType {
-        Passive,
-        Melee,
-        Mage,
-        Ranged,
-        Jad
-    }
-
-    public enum BossLocationType {
-        N,
-        S,
-        W,
-        E
-    }
-
-    public enum PlayerLocationType {
-        N,
-        S,
-        W,
-        E,
-        NE,
-        NW,
-        SE,
-        SW
-    }
-
     public partial class Zulrah {
         private int _phaseIndex;
         public bool RotationFound => PossibleRotations.Count == 1;
 
         private bool IsLastPhase() {
-            return RotationFound && PossibleRotations[0].Count - 1 <= _phaseIndex;
+            return RotationFound && PossibleRotations[0].Phases.Count - 1 <= _phaseIndex;
         }
-        public List<List<Phase>> PossibleRotations { get; private set; }
-        public List<List<Phase>> Rotations { get; }
+        public List<Rotation> PossibleRotations { get; private set; }
+        public List<Rotation> Rotations { get; }
 
         public Phase CurrentPhase { get; private set; }
 
@@ -47,17 +21,17 @@ namespace Zulrah_Rotation_Assistant {
         public bool PhaseSameAttackStyle { get; private set; }
 
         public Zulrah() {
-            Rotations = new List<List<Phase>>();
+            Rotations = new List<Rotation>();
             foreach (string file in Directory.GetFiles("Rotations")) {
                 string jsonString = new StreamReader(file).ReadToEnd();
-                var singleRotation = JsonConvert.DeserializeObject<List<Phase>>(jsonString);
+                var singleRotation = JsonConvert.DeserializeObject<Rotation>(jsonString);
 
                 Rotations.Add(singleRotation);
             }
 
             PossibleRotations = Rotations;
 
-            CurrentPhase = Rotations[0].First();
+            CurrentPhase = Rotations[0].Phases.First();
         }
 
         /// <summary>
@@ -67,7 +41,7 @@ namespace Zulrah_Rotation_Assistant {
             _phaseIndex = 0;
             PossibleRotations = Rotations;
 
-            CurrentPhase = Rotations[0].First();
+            CurrentPhase = Rotations[0].Phases.First();
         }
 
         /// <summary>
@@ -76,10 +50,10 @@ namespace Zulrah_Rotation_Assistant {
         /// <param name="currentStyle">What Phase you're being attacked by currently.</param>
         /// <returns></returns>
         public List<Phase> PossiblePhases(StyleType currentStyle) {
-            PossibleRotations = PossibleRotations.Where(r => r[_phaseIndex].Style == currentStyle).ToList();
+            PossibleRotations = PossibleRotations.Where(r => r.Phases[_phaseIndex].Style == currentStyle).ToList();
 
             //Get only distinct phases (otherwise you'd get two melee phases with same positioning for first round).
-            var result = PossibleRotations.Select(p => p[_phaseIndex + 1])
+            var result = PossibleRotations.Select(p => p.Phases[_phaseIndex + 1])
                                           .GroupBy(p => new { p.BossLocation, p.Style })
                                           .Select(p => p.First()).ToList();
 
@@ -91,10 +65,10 @@ namespace Zulrah_Rotation_Assistant {
         }
 
         public List<Phase> PossiblePhases(BossLocationType bossLocation) {
-            PossibleRotations = PossibleRotations.Where(r => r[_phaseIndex].BossLocation == bossLocation).ToList();
+            PossibleRotations = PossibleRotations.Where(r => r.Phases[_phaseIndex].BossLocation == bossLocation).ToList();
 
             //Get only distinct phases (otherwise you'd get two melee phases with same positioning for first round).
-            var result = PossibleRotations.Select(p => p[_phaseIndex + 1])
+            var result = PossibleRotations.Select(p => p.Phases[_phaseIndex + 1])
                                           .GroupBy(p => new { p.BossLocation, p.Style })
                                           .Select(p => p.First()).ToList();
 
@@ -116,7 +90,7 @@ namespace Zulrah_Rotation_Assistant {
             }
 
             if (RotationFound) {
-                CurrentPhase = PossibleRotations.Select(p => p[_phaseIndex + 1]).Single();
+                CurrentPhase = PossibleRotations.Select(p => p.Phases[_phaseIndex + 1]).Single();
             } else {
                 PhaseDescisionInputRequired = true;
                 throw new InvalidOperationException();

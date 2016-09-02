@@ -17,8 +17,10 @@ namespace Zulrah_Rotation_Assistant {
             [JsonConverter(typeof(StringEnumConverter))]
             public PlayerLocationType PlayerLocation;
 
-            [JsonProperty("Jad_Style")]
-            public StyleType JadStyle;
+
+            [JsonProperty("Jad_Style", NullValueHandling = NullValueHandling.Ignore)]
+            [JsonConverter(typeof(StringEnumConverter))]
+            public StyleType? JadStyle;
 
             [JsonProperty("Notes")]
             public string Notes;
@@ -30,7 +32,7 @@ namespace Zulrah_Rotation_Assistant {
                 return GetPhaseColor(Style);
             }
 
-            public Color GetPhaseColor(StyleType attackStyle) {
+            public Color GetPhaseColor(StyleType? attackStyle) {
                 Color colorEquvilent = new Color(); 
                 switch(attackStyle) {
                     case StyleType.Mage:
@@ -51,7 +53,6 @@ namespace Zulrah_Rotation_Assistant {
                 }
                 return colorEquvilent;
             }
-
 
             public string GetNotes() {
                 string locationSpeech = "";

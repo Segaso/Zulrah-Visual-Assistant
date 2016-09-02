@@ -71,7 +71,7 @@ namespace Zulrah_Rotation_Assistant {
             _previousElementIDs.Add(phase.MapBossLocation);
             _previousElementIDs.Add(phase.MapPlayerLocation);
 
-            if (phase.Style == StyleType.Jad) {
+            if (phase.Style == Zulrah.StyleType.Jad) {
                 bossObject.StrokeOpacity = 255;
                 bossObject.Stroke = new SvgColourServer(phase.GetPhaseColor(phase.JadStyle));
             }
@@ -88,6 +88,11 @@ namespace Zulrah_Rotation_Assistant {
             _mapCanvas.BackgroundImage = GetBitmap();
         }
 
+        /// <summary>
+        /// Used to hide an element in the SVG map. 
+        /// I.E when the Boss moves and the previous position is no longer relevant, or the player position moves.
+        /// </summary>
+        /// <param name="element">The ID of the element in the SVG (like PP_NE)</param>
         public void HideElement(string element) {
             var mapObject = _map.GetElementById(element);
             mapObject.FillOpacity = 0;

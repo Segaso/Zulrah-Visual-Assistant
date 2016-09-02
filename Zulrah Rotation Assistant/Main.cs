@@ -13,12 +13,19 @@ namespace Zulrah_Rotation_Assistant {
         private readonly SpeechSynthesizer _speechSynthesizer;
         public Main() {
             InitializeComponent();
-            _mainMap = new MapRenderEngine(ref MainCanvas);
+            _mainMap = new MapRenderEngine(ref MainCanvas, true);
 
             _boss = new Zulrah();
             _boss.InitialPhase();
 
             _mainMap.ShowPhase(_boss.CurrentPhase);
+
+            var test = Zulrah.ZulrahSingleton.Instance;
+            test.OnPhaseChanged += Zulrah_OnPhaseChanged;
+            test.OnPhaseDecisionRequired += 
+            test.NextPhase(Zulrah.StyleType.Jad, Zulrah.BossLocationType.S);
+
+
 
             try {
                 _boss.NextPhase();
@@ -39,15 +46,8 @@ namespace Zulrah_Rotation_Assistant {
 
                 speechEngine.SpeechRecognized += SpeechEngine_SpeechRecognized;
 
-                var commands = new Choices();
+                var commands = new Choices("Next", "Reset", "Blue", "Red", "Green", "Top", "Right");
 
-                commands.Add("Next");
-                commands.Add("Reset");
-                commands.Add("Blue");
-                commands.Add("Red");
-                commands.Add("Green");
-                commands.Add("Top");
-                commands.Add("Right");
 
                 var gramarCommands = new GrammarBuilder();
                 gramarCommands.Append(commands);
@@ -59,7 +59,15 @@ namespace Zulrah_Rotation_Assistant {
             }
         }
 
-        private void NextPhase(StyleType style) {
+        private void Zulrah_OnPhaseChanged(object sender) {
+            
+        }
+
+        private void Zulrah_OnPhaseDecisionRequired(object sender) {
+
+        }
+
+        private void NextPhase(Zulrah.StyleType style) {
             if (!_boss.PhaseDescisionInputRequired) {
                 try {
                     _mainMap.ShowPhase(_boss.NextPhase());
@@ -80,10 +88,15 @@ namespace Zulrah_Rotation_Assistant {
             }
 
             _speechSynthesizer.SpeakAsync(_boss.CurrentPhase.GetNotes());
+            if (_boss.PhaseSameAttackStyle && _boss.PhaseDescisionInputRequired) {
+                _speechSynthesizer.SpeakAsync("Top or Right Range Phase");
+            } else if (_boss.PhaseDescisionInputRequired) {
+                _speechSynthesizer.SpeakAsync("Phase Input Required");
+            }
         }
 
 
-        private void NextPhase(BossLocationType bossLocation) {
+        private void NextPhase(Zulrah.BossLocationType bossLocation) {
             if (_boss.PhaseSameAttackStyle) {
                 _mainMap.ShowPhase(_boss.NextPhase(bossLocation));
                 if (_phasesDisplayOn) {
@@ -154,27 +167,28 @@ namespace Zulrah_Rotation_Assistant {
                 } else if (_boss.PhaseDescisionInputRequired && !_boss.PhaseSameAttackStyle) {
                     switch (voiceCommand) {
                         case "Red":
-                            NextPhase(StyleType.Melee);
+                            NextPhase(Zulrah.StyleType.Melee);
                             break;
                         case "Blue":
-                            NextPhase(StyleType.Mage);
+                            NextPhase(Zulrah.StyleType.Mage);
                             break;
                         case "Green":
-                            NextPhase(StyleType.Ranged);
+                            NextPhase(Zulrah.StyleType.Ranged);
                             break;
                     }
                 } else if (_boss.PhaseDescisionInputRequired && _boss.PhaseSameAttackStyle) {
                     switch (voiceCommand) {
 
                         case "Top":
-                            NextPhase(BossLocationType.N);
+                            NextPhase(Zulrah.BossLocationType.N);
                             break;
                         case "Right":
-                            NextPhase(BossLocationType.E);
+                            NextPhase(Zulrah.BossLocationType.E);
                             break;
                     }
                 } else if (voiceCommand == "Reset") {
                     _boss.InitialPhase();
+                    _speechSynthesizer.SpeakAsync("Zulrah Reset");
 
                     _mainMap.ShowPhase(_boss.CurrentPhase);
 

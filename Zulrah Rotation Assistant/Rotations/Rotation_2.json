@@ -1,57 +1,72 @@
-[{
-	"Style": "Passive",
-	"Boss_Location": "S",
-	"Player_Location": "SW",
-	"Notes": ""
-}, {
-	"Style": "Melee",
-	"Boss_Location": "S",
-	"Player_Location": "SW",
-	"Notes": ""
-}, {
-	"Style": "Mage",
-	"Boss_Location": "S",
-	"Player_Location": "NE",
-	"Notes": ""
-}, {
-	"Style": "Ranged",
-	"Boss_Location": "E",
-	"Player_Location": "NE",
-	"Notes": ""
-}, {
-	"Style": "Mage",
-	"Boss_Location": "N",
-	"Player_Location": "NW",
-	"Notes": "Stand Slightly in front of pillar"
-}, {
-	"Style": "Melee",
-	"Boss_Location": "S",
-	"Player_Location": "NW",
-	"Notes": ""
-}, {
-	"Style": "Ranged",
-	"Boss_Location": "W",
-	"Player_Location": "NW",
-	"Notes": ""
-}, {
-	"Style": "Mage",
-	"Boss_Location": "N",
-	"Player_Location": "NE",
-	"Notes": "Stand Slightly in front of pillar"
-}, {
-	"Style": "Jad",
-	"Boss_Location": "E",
-	"Player_Location": "SE",
-	"Jad_Style": "Ranged",
-	"Notes": ""
-}, {
-	"Style": "Melee",
-	"Boss_Location": "S",
-	"Player_Location": "SE",
-	"Notes": ""
-}, {
-	"Style": "Ranged",
-	"Boss_Location": "S",
-	"Player_Location": "SE",
-	"Notes": ""
-}]
+{
+  "RotationIndex": "2",
+  "Phases": [
+    {
+      "Style": "Passive",
+      "Boss_Location": "S",
+      "Player_Location": "SW",
+      "Notes": ""
+    },
+    {
+      "Style": "Melee",
+      "Boss_Location": "S",
+      "Player_Location": "SW",
+      "Notes": ""
+    },
+    {
+      "Style": "Mage",
+      "Boss_Location": "S",
+      "Player_Location": "NE",
+      "Notes": ""
+    },
+    {
+      "Style": "Ranged",
+      "Boss_Location": "E",
+      "Player_Location": "NE",
+      "Notes": ""
+    },
+    {
+      "Style": "Mage",
+      "Boss_Location": "N",
+      "Player_Location": "NW",
+      "Notes": "Stand Slightly in front of pillar"
+    },
+    {
+      "Style": "Melee",
+      "Boss_Location": "S",
+      "Player_Location": "NW",
+      "Notes": ""
+    },
+    {
+      "Style": "Ranged",
+      "Boss_Location": "W",
+      "Player_Location": "NW",
+      "Notes": ""
+    },
+    {
+      "Style": "Mage",
+      "Boss_Location": "N",
+      "Player_Location": "NE",
+      "Notes": "Stand Slightly in front of pillar"
+    },
+    {
+      "Style": "Jad",
+      "Boss_Location": "E",
+      "Player_Location": "SE",
+      "Jad_Style": "Ranged",
+      "Notes": ""
+    },
+    {
+      "Style": "Melee",
+      "Boss_Location": "S",
+      "Player_Location": "SE",
+      "Notes": ""
+    },
+    {
+      "Style": "Ranged",
+      "Boss_Location": "S",
+      "Player_Location": "SE",
+      "Notes": ""
+    }
+  ]
+}
