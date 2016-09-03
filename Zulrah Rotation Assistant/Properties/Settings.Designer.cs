@@ -130,5 +130,149 @@ namespace Zulrah_Rotation_Assistant.Properties {
                 this["MapBackgroundColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
+        public string MeleeVoiceCommand {
+            get {
+                return ((string)(this["MeleeVoiceCommand"]));
+            }
+            set {
+                this["MeleeVoiceCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Blue")]
+        public string MageVoiceCommand {
+            get {
+                return ((string)(this["MageVoiceCommand"]));
+            }
+            set {
+                this["MageVoiceCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Green")]
+        public string RangeVoiceCommand {
+            get {
+                return ((string)(this["RangeVoiceCommand"]));
+            }
+            set {
+                this["RangeVoiceCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Top")]
+        public string NorthPositionVoiceCommand {
+            get {
+                return ((string)(this["NorthPositionVoiceCommand"]));
+            }
+            set {
+                this["NorthPositionVoiceCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Left")]
+        public string WestPositionVoiceCommand {
+            get {
+                return ((string)(this["WestPositionVoiceCommand"]));
+            }
+            set {
+                this["WestPositionVoiceCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Right")]
+        public string EastPositionVoiceCommand {
+            get {
+                return ((string)(this["EastPositionVoiceCommand"]));
+            }
+            set {
+                this["EastPositionVoiceCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Bottom")]
+        public string SouthPositionVoiceCommand {
+            get {
+                return ((string)(this["SouthPositionVoiceCommand"]));
+            }
+            set {
+                this["SouthPositionVoiceCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Reset")]
+        public string ResetVoiceCommand {
+            get {
+                return ((string)(this["ResetVoiceCommand"]));
+            }
+            set {
+                this["ResetVoiceCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Previous")]
+        public string PreviousVoiceCommand {
+            get {
+                return ((string)(this["PreviousVoiceCommand"]));
+            }
+            set {
+                this["PreviousVoiceCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Next")]
+        public string NextVoiceCommand {
+            get {
+                return ((string)(this["NextVoiceCommand"]));
+            }
+            set {
+                this["NextVoiceCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MapFlipped {
+            get {
+                return ((bool)(this["MapFlipped"]));
+            }
+            set {
+                this["MapFlipped"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("en-US")]
+        public global::System.Globalization.CultureInfo VoiceCommandLanguage {
+            get {
+                return ((global::System.Globalization.CultureInfo)(this["VoiceCommandLanguage"]));
+            }
+            set {
+                this["VoiceCommandLanguage"] = value;
+            }
+        }
     }
 }

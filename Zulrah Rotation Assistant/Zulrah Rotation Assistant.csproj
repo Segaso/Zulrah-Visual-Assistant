@@ -73,7 +73,6 @@
     <Compile Include="Rotation.cs" />
     <Compile Include="VoiceCommands.cs" />
     <Compile Include="Zulrah.cs" />
-    <Compile Include="ZulrahSingleton.cs" />
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>

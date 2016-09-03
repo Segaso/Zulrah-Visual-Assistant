@@ -29,5 +29,41 @@
     <Setting Name="MapBackgroundColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">49, 49, 49</Value>
     </Setting>
+    <Setting Name="MeleeVoiceCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Red</Value>
+    </Setting>
+    <Setting Name="MageVoiceCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Blue</Value>
+    </Setting>
+    <Setting Name="RangeVoiceCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Green</Value>
+    </Setting>
+    <Setting Name="NorthPositionVoiceCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Top</Value>
+    </Setting>
+    <Setting Name="WestPositionVoiceCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Left</Value>
+    </Setting>
+    <Setting Name="EastPositionVoiceCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Right</Value>
+    </Setting>
+    <Setting Name="SouthPositionVoiceCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Bottom</Value>
+    </Setting>
+    <Setting Name="ResetVoiceCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Reset</Value>
+    </Setting>
+    <Setting Name="PreviousVoiceCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Previous</Value>
+    </Setting>
+    <Setting Name="NextVoiceCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Next</Value>
+    </Setting>
+    <Setting Name="MapFlipped" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="VoiceCommandLanguage" Type="System.Globalization.CultureInfo" Scope="User">
+      <Value Profile="(Default)">en-US</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

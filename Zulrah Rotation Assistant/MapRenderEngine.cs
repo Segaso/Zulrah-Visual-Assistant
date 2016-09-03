@@ -18,13 +18,13 @@ namespace Zulrah_Rotation_Assistant {
         private static readonly Color PlayerColor = Properties.Settings.Default.PlayerColor;
         private static readonly Color MapColor = Properties.Settings.Default.MapBackgroundColor;
         
-        public MapRenderEngine(ref Panel canvas, bool rotateMapOrientation = false) {
+        public MapRenderEngine(ref Panel canvas) {
             _mapCanvas = canvas;
 
             _map = SvgDocument.Open("ZulrahMap.svg");
             _map.Height = _mapCanvas.Height;
             _map.Width = _mapCanvas.Width;
-            _flipMap = rotateMapOrientation;
+            _flipMap = Properties.Settings.Default.MapFlipped;
 
             var island = _map.GetElementById("ZulrahIsland");
             island.Fill = new SvgColourServer(Properties.Settings.Default.ZulrahIsland_Color);
