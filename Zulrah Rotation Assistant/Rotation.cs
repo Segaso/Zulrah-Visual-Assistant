@@ -45,7 +45,7 @@ namespace Zulrah_Rotation_Assistant {
             public Phase NextPhase
                 => Phases.Count - 1 > Instance._phaseIndex ? Phases[Instance._phaseIndex + 1] : Phases.First();
 
-            public bool PlayerLocationMoved => CurrentPhase.PlayerLocation != NextPhase.PlayerLocation;
+            public bool PlayerLocationMoved => PreviousPhase.PlayerLocation != CurrentPhase.PlayerLocation;
 
             public bool BossLocationMoved => CurrentPhase.BossLocation != NextPhase.BossLocation;
         }

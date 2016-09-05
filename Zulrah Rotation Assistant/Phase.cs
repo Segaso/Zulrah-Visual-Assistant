@@ -1,29 +1,23 @@
-﻿using Newtonsoft.Json;
+﻿using System.Drawing;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System.Drawing;
+using Zulrah_Rotation_Assistant.Properties;
 
 namespace Zulrah_Rotation_Assistant {
     public partial class Zulrah {
         public class Phase {
-            [JsonProperty("Style")]
-            [JsonConverter(typeof(StringEnumConverter))]
-            public StyleType Style;
-
-            [JsonProperty("Boss_Location")]
-            [JsonConverter(typeof(StringEnumConverter))]
-            public BossLocationType BossLocation;
-
-            [JsonProperty("Player_Location")]
-            [JsonConverter(typeof(StringEnumConverter))]
-            public PlayerLocationType PlayerLocation;
+            [JsonProperty("Boss_Location")] [JsonConverter(typeof(StringEnumConverter))] public BossLocationType
+                BossLocation;
 
 
-            [JsonProperty("Jad_Style", NullValueHandling = NullValueHandling.Ignore)]
-            [JsonConverter(typeof(StringEnumConverter))]
-            public StyleType? JadStyle;
+            [JsonProperty("Jad_Style", NullValueHandling = NullValueHandling.Ignore)] [JsonConverter(typeof(StringEnumConverter))] public StyleType? JadStyle;
 
-            [JsonProperty("Notes")]
-            public string Notes;
+            [JsonProperty("Notes")] public string Notes;
+
+            [JsonProperty("Player_Location")] [JsonConverter(typeof(StringEnumConverter))] public PlayerLocationType
+                PlayerLocation;
+
+            [JsonProperty("Style")] [JsonConverter(typeof(StringEnumConverter))] public StyleType Style;
 
             public string MapBossLocation => $"BP_{BossLocation}";
             public string MapPlayerLocation => $"PP_{PlayerLocation}";
@@ -33,29 +27,29 @@ namespace Zulrah_Rotation_Assistant {
             }
 
             public Color GetPhaseColor(StyleType? attackStyle) {
-                Color colorEquvilent = new Color(); 
-                switch(attackStyle) {
+                var colorEquvilent = new Color();
+                switch (attackStyle) {
                     case StyleType.Mage:
-                        colorEquvilent = Properties.Settings.Default.MageColor;
+                        colorEquvilent = Settings.Default.MageColor;
                         break;
                     case StyleType.Ranged:
-                        colorEquvilent = Properties.Settings.Default.RangeColor;
+                        colorEquvilent = Settings.Default.RangeColor;
                         break;
                     case StyleType.Melee:
-                        colorEquvilent = Properties.Settings.Default.MeleeColor;
+                        colorEquvilent = Settings.Default.MeleeColor;
                         break;
                     case StyleType.Passive:
-                        colorEquvilent = Properties.Settings.Default.PassiveColor;
+                        colorEquvilent = Settings.Default.PassiveColor;
                         break;
                     case StyleType.Jad:
-                        colorEquvilent = Properties.Settings.Default.JadColor;
+                        colorEquvilent = Settings.Default.JadColor;
                         break;
                 }
                 return colorEquvilent;
             }
 
-            public string GetNotes() {
-                string locationSpeech = "";
+            public string GetBossLocation() {
+                string locationSpeech = string.Empty;
                 switch (BossLocation) {
                     case BossLocationType.N:
                         locationSpeech = "Top";
@@ -70,11 +64,12 @@ namespace Zulrah_Rotation_Assistant {
                         locationSpeech = "Right";
                         break;
                 }
-
-                return $"Boss Style {Style} Position {locationSpeech} ";
+                return locationSpeech;
             }
 
+            public string GetNotes() {
+                return $"Style {Style} Position {GetBossLocation()} ";
+            }
         }
-
     }
 }

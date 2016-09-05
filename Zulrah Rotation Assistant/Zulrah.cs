@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 
 namespace Zulrah_Rotation_Assistant {
     public partial class Zulrah {
-        public delegate void ZulrahEventHandler(object sender, EventArgs eventArgs);
+        public delegate void ZulrahNextEventHandler(Rotation sender);
+
+        public delegate void ZulrahPhaseDecisionEventHandler(IList<Phase> phases, bool sameAttackStyle);
 
         private static Zulrah _instance;
 
         private readonly IList<Rotation> _rotations;
-        private IList<Rotation> _possibleRotations;
 
         private int _phaseIndex;
-        private bool RotationFound => _possibleRotations.Count == 1;
-        private bool PhaseDecisionRequired => GetPossiblePhases().Count != 1;
+        private IList<Rotation> _possibleRotations;
 
         private Zulrah() {
             _rotations = new List<Rotation>();
@@ -25,18 +24,27 @@ namespace Zulrah_Rotation_Assistant {
             Reset();
         }
 
+        private bool PhaseDecisionRequired => GetPossiblePhases().Count != 1;
+
+        private bool PhaseSameAttackStyle
+            => GetPossiblePhases().GroupBy(s => s.Style).Count() != GetPossiblePhases().Count;
+
+
+        public static Zulrah Instance => _instance ?? (_instance = new Zulrah());
+
+        public void Start() => Reset();
+
         public void Reset() {
             _phaseIndex = 0;
             _possibleRotations = _rotations;
 
-            OnPhaseChanged(_possibleRotations.Select(s => s.CurrentPhase).First(), EventArgs.Empty);
+            OnPhaseChanged?.Invoke(_possibleRotations.First());
+            OnPhaseDecisionRequired?.Invoke(GetPossiblePhases(), PhaseSameAttackStyle);
         }
 
-        public static Zulrah Instance => _instance ?? (_instance = new Zulrah());
 
-
-        public event ZulrahEventHandler OnPhaseChanged;
-        public event ZulrahEventHandler OnPhaseDecisionRequired;
+        public event ZulrahNextEventHandler OnPhaseChanged;
+        public event ZulrahPhaseDecisionEventHandler OnPhaseDecisionRequired;
 
         /// <summary>
         ///     Loads the rotation data from the rotation.json files.
@@ -50,38 +58,51 @@ namespace Zulrah_Rotation_Assistant {
 
         public void NextPhase() {
             if (!PhaseDecisionRequired) {
-                _phaseIndex++;
-                var phase = _possibleRotations.Select(S => S.CurrentPhase).First();
+                IncreasePhaseIndex();
 
-                OnPhaseChanged?.Invoke(phase, EventArgs.Empty);
+                var phase = _possibleRotations.First();
+                OnPhaseChanged?.Invoke(phase);
             }
             else {
-                OnPhaseDecisionRequired?.Invoke(GetPossiblePhases(), EventArgs.Empty);
+                OnPhaseDecisionRequired?.Invoke(GetPossiblePhases(), PhaseSameAttackStyle);
             }
         }
 
         public void NextPhaseByStyle(StyleType bossStyle) {
             if (PhaseDecisionRequired) {
-                _possibleRotations =
-                    _possibleRotations.Where(r => r.NextPhase.Style == bossStyle).ToList();
+                var tempRotations = _possibleRotations.Where(r => r.NextPhase.Style == bossStyle).ToList();
 
+                if (tempRotations.Count != 0) {
+                    _possibleRotations = tempRotations;
+                }
                 var phases = GetPossiblePhases();
 
                 if (phases.Count == 1) {
-                    _phaseIndex++;
+                    IncreasePhaseIndex();
+                    OnPhaseChanged?.Invoke(_possibleRotations.First());
+                }
+                else {
+                    OnPhaseDecisionRequired?.Invoke(phases, PhaseSameAttackStyle);
                 }
             }
         }
 
         public void NextPhaseByLocation(BossLocationType bossLocation) {
             if (PhaseDecisionRequired) {
-                _possibleRotations =
-                    _possibleRotations.Where(r => r.NextPhase.BossLocation == bossLocation).ToList();
+                var tempRotations = _possibleRotations.Where(r => r.NextPhase.BossLocation == bossLocation).ToList();
+
+                if (tempRotations.Count != 0) {
+                    _possibleRotations = tempRotations;
+                }
 
                 var phases = GetPossiblePhases();
 
                 if (phases.Count == 1) {
-                    _phaseIndex++;
+                    IncreasePhaseIndex();
+                    OnPhaseChanged?.Invoke(_possibleRotations.First());
+                }
+                else {
+                    OnPhaseDecisionRequired?.Invoke(phases, PhaseSameAttackStyle);
                 }
             }
         }
@@ -90,6 +111,12 @@ namespace Zulrah_Rotation_Assistant {
             return _possibleRotations.Select(p => p.NextPhase)
                 .GroupBy(p => new {p.BossLocation, p.Style})
                 .Select(p => p.First()).ToList();
+        }
+
+        private void IncreasePhaseIndex() {
+            _phaseIndex++;
+
+            if (_phaseIndex + 1 > _possibleRotations.Min(r => r.Phases.Count)) _phaseIndex = 0;
         }
     }
 }

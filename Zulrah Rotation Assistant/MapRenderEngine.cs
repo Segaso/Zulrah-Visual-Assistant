@@ -1,34 +1,35 @@
-﻿using System.Drawing;
-using Svg;
-using System.Windows.Forms;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using System.Drawing;
+using System.Windows.Forms;
+using Svg;
+using Zulrah_Rotation_Assistant.Properties;
 
 namespace Zulrah_Rotation_Assistant {
     /// <summary>
-    /// Class containg code for manipulating SVG graphics.
+    ///     Class containg code for manipulating SVG graphics.
     /// </summary>
     public class MapRenderEngine {
+        private static readonly Color PlayerColor = Settings.Default.PlayerColor;
+        private static readonly Color MapColor = Settings.Default.MapBackgroundColor;
 
         //Allow the map to be oriented in either direction
         private readonly bool _flipMap;
         private readonly SvgDocument _map;
         private readonly Panel _mapCanvas;
         private List<string> _previousElementIDs;
-        private static readonly Color PlayerColor = Properties.Settings.Default.PlayerColor;
-        private static readonly Color MapColor = Properties.Settings.Default.MapBackgroundColor;
-        
+
         public MapRenderEngine(ref Panel canvas) {
             _mapCanvas = canvas;
 
             _map = SvgDocument.Open("ZulrahMap.svg");
             _map.Height = _mapCanvas.Height;
             _map.Width = _mapCanvas.Width;
-            _flipMap = Properties.Settings.Default.MapFlipped;
+            _flipMap = Settings.Default.MapFlipped;
 
             var island = _map.GetElementById("ZulrahIsland");
-            island.Fill = new SvgColourServer(Properties.Settings.Default.ZulrahIsland_Color);
-            island.Stroke = new SvgColourServer(Properties.Settings.Default.ZulrahIsland_BorderColor);
+            island.Fill = new SvgColourServer(Settings.Default.ZulrahIsland_Color);
+            island.Stroke = new SvgColourServer(Settings.Default.ZulrahIsland_BorderColor);
 
             _mapCanvas.BackColor = MapColor;
 
@@ -36,7 +37,7 @@ namespace Zulrah_Rotation_Assistant {
         }
 
         private void Canvas_SizeChanged(object sender, EventArgs e) {
-            var canvas = (Panel)sender;
+            var canvas = (Panel) sender;
 
             _map.Height = _map.Height = canvas.Height;
             _map.Width = canvas.Width;
@@ -47,18 +48,15 @@ namespace Zulrah_Rotation_Assistant {
         public Bitmap GetBitmap() {
             var mapImage = _map.Draw();
 
-            if (_flipMap) {
-                mapImage.RotateFlip(RotateFlipType.Rotate180FlipX);
-            }
+            if (_flipMap) mapImage.RotateFlip(RotateFlipType.Rotate180FlipX);
             return mapImage;
         }
 
         public void ShowPhase(Zulrah.Phase phase) {
             try {
-                foreach (string elementId in _previousElementIDs) {
-                    HideElement(elementId);
-                }
-            }catch(NullReferenceException) {
+                foreach (var elementId in _previousElementIDs) HideElement(elementId);
+            }
+            catch (NullReferenceException) {
                 _previousElementIDs = new List<string>();
             }
 
@@ -89,8 +87,8 @@ namespace Zulrah_Rotation_Assistant {
         }
 
         /// <summary>
-        /// Used to hide an element in the SVG map. 
-        /// I.E when the Boss moves and the previous position is no longer relevant, or the player position moves.
+        ///     Used to hide an element in the SVG map.
+        ///     I.E when the Boss moves and the previous position is no longer relevant, or the player position moves.
         /// </summary>
         /// <param name="element">The ID of the element in the SVG (like PP_NE)</param>
         public void HideElement(string element) {
@@ -100,7 +98,7 @@ namespace Zulrah_Rotation_Assistant {
         }
 
         /// <summary>
-        /// Makes sure that the image does not exceed the maximum size, while preserving aspect ratio.
+        ///     Makes sure that the image does not exceed the maximum size, while preserving aspect ratio.
         /// </summary>
         public void AdjustMapSize(int height, int width) {
             _map.Height = height;
