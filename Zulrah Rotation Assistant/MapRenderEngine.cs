@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
+using System.Xml;
 using Svg;
 using Zulrah_Rotation_Assistant.Properties;
 
@@ -22,7 +24,11 @@ namespace Zulrah_Rotation_Assistant {
         public MapRenderEngine(ref Panel canvas) {
             _mapCanvas = canvas;
 
-            _map = SvgDocument.Open("ZulrahMap.svg");
+            var mapResource = new XmlDocument();
+            mapResource.LoadXml(Resources.ZulrahMap);
+
+            _map = SvgDocument.Open(mapResource);
+
             _map.Height = _mapCanvas.Height;
             _map.Width = _mapCanvas.Width;
             _flipMap = Settings.Default.MapFlipped;

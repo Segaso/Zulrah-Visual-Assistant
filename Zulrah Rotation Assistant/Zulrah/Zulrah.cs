@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
+using System.Text;
 using Newtonsoft.Json;
 
 namespace Zulrah_Rotation_Assistant {
@@ -50,10 +54,10 @@ namespace Zulrah_Rotation_Assistant {
         ///     Loads the rotation data from the rotation.json files.
         /// </summary>
         private void LoadRotations() {
-            foreach (var file in Directory.GetFiles("Rotations")) {
-                var rotation = JsonConvert.DeserializeObject<Rotation>(new StreamReader(file).ReadToEnd());
-                _rotations.Add(rotation);
-            }
+            _rotations.Add(JsonConvert.DeserializeObject<Rotation>(Properties.Resources.Rotation_1));
+            _rotations.Add(JsonConvert.DeserializeObject<Rotation>(Properties.Resources.Rotation_2));
+            _rotations.Add(JsonConvert.DeserializeObject<Rotation>(Properties.Resources.Rotation_3));
+            _rotations.Add(JsonConvert.DeserializeObject<Rotation>(Properties.Resources.Rotation_4));
         }
 
         public void NextPhase() {

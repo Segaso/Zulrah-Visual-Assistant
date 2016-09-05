@@ -59,5 +59,160 @@ namespace Zulrah_Rotation_Assistant.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;Name&quot;: &quot;Rotation 1&quot;,
+        ///  &quot;Phases&quot;: [
+        ///    {
+        ///      &quot;Style&quot;: &quot;Passive&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;S&quot;,
+        ///      &quot;Player_Location&quot;: &quot;SW&quot;,
+        ///      &quot;Notes&quot;: &quot;&quot;
+        ///    },
+        ///    {
+        ///      &quot;Style&quot;: &quot;Melee&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;S&quot;,
+        ///      &quot;Player_Location&quot;: &quot;SW&quot;,
+        ///      &quot;Notes&quot;: &quot;&quot;
+        ///    },
+        ///    {
+        ///      &quot;Style&quot;: &quot;Mage&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;S&quot;,
+        ///      &quot;Player_Location&quot;: &quot;NE&quot;,
+        ///      &quot;Notes&quot;: &quot;&quot;
+        ///    },
+        ///    {
+        ///      &quot;Style&quot;: &quot;Ranged&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;N&quot;,
+        ///      &quot;Player_Location&quot;: &quot;NE&quot;,
+        ///      &quot;Notes&quot;: [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Rotation_1 {
+            get {
+                return ResourceManager.GetString("Rotation_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;RotationIndex&quot;: &quot;2&quot;,
+        ///  &quot;Phases&quot;: [
+        ///    {
+        ///      &quot;Style&quot;: &quot;Passive&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;S&quot;,
+        ///      &quot;Player_Location&quot;: &quot;SW&quot;,
+        ///      &quot;Notes&quot;: &quot;&quot;
+        ///    },
+        ///    {
+        ///      &quot;Style&quot;: &quot;Melee&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;S&quot;,
+        ///      &quot;Player_Location&quot;: &quot;SW&quot;,
+        ///      &quot;Notes&quot;: &quot;&quot;
+        ///    },
+        ///    {
+        ///      &quot;Style&quot;: &quot;Mage&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;S&quot;,
+        ///      &quot;Player_Location&quot;: &quot;NE&quot;,
+        ///      &quot;Notes&quot;: &quot;&quot;
+        ///    },
+        ///    {
+        ///      &quot;Style&quot;: &quot;Ranged&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;E&quot;,
+        ///      &quot;Player_Location&quot;: &quot;NE&quot;,
+        ///      &quot;Notes&quot;: [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Rotation_2 {
+            get {
+                return ResourceManager.GetString("Rotation_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;RotationIndex&quot;: &quot;3&quot;,
+        ///  &quot;Phases&quot;: [
+        ///    {
+        ///      &quot;Style&quot;: &quot;Passive&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;S&quot;,
+        ///      &quot;Player_Location&quot;: &quot;SW&quot;,
+        ///      &quot;Notes&quot;: &quot;&quot;
+        ///    },
+        ///    {
+        ///      &quot;Style&quot;: &quot;Ranged&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;S&quot;,
+        ///      &quot;Player_Location&quot;: &quot;SW&quot;,
+        ///      &quot;Notes&quot;: &quot;&quot;
+        ///    },
+        ///    {
+        ///      &quot;Style&quot;: &quot;Melee&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;S&quot;,
+        ///      &quot;Player_Location&quot;: &quot;SE&quot;,
+        ///      &quot;Notes&quot;: &quot;&quot;
+        ///    },
+        ///    {
+        ///      &quot;Style&quot;: &quot;Mage&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;E&quot;,
+        ///      &quot;Player_Location&quot;: &quot;NE&quot;,
+        ///      &quot;Notes&quot;: [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Rotation_3 {
+            get {
+                return ResourceManager.GetString("Rotation_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;RotationIndex&quot;: &quot;4&quot;,
+        ///  &quot;Phases&quot;: [
+        ///    {
+        ///      &quot;Style&quot;: &quot;Passive&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;S&quot;,
+        ///      &quot;Player_Location&quot;: &quot;SW&quot;,
+        ///      &quot;Notes&quot;: &quot;&quot;
+        ///    },
+        ///    {
+        ///      &quot;Style&quot;: &quot;Mage&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;W&quot;,
+        ///      &quot;Player_Location&quot;: &quot;SW&quot;,
+        ///      &quot;Notes&quot;: &quot;&quot;
+        ///    },
+        ///    {
+        ///      &quot;Style&quot;: &quot;Ranged&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;N&quot;,
+        ///      &quot;Player_Location&quot;: &quot;NE&quot;,
+        ///      &quot;Notes&quot;: &quot;&quot;
+        ///    },
+        ///    {
+        ///      &quot;Style&quot;: &quot;Mage&quot;,
+        ///      &quot;Boss_Location&quot;: &quot;E&quot;,
+        ///      &quot;Player_Location&quot;: &quot;NE&quot;,
+        ///      &quot;Notes&quot;:  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Rotation_4 {
+            get {
+                return ResourceManager.GetString("Rotation_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+        ///&lt;svg
+        ///   xmlns:osb=&quot;http://www.openswatchbook.org/uri/2009/osb&quot;
+        ///   xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot;
+        ///   xmlns:cc=&quot;http://creativecommons.org/ns#&quot;
+        ///   xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;
+        ///   xmlns:svg=&quot;http://www.w3.org/2000/svg&quot;
+        ///   xmlns=&quot;http://www.w3.org/2000/svg&quot;
+        ///   xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;
+        ///   xmlns:sodipodi=&quot;http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd&quot;
+        ///   xmlns:inkscape=&quot;http://www.inksca [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ZulrahMap {
+            get {
+                return ResourceManager.GetString("ZulrahMap", resourceCulture);
+            }
+        }
     }
 }
