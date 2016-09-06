@@ -28,7 +28,7 @@
     {
       "Style": "Mage",
       "Boss_Location": "N",
-      "Player_Location": "NW",
+      "Player_Location": "NNW",
       "Notes": "Stand Slightly in front of pillar"
     },
     {
@@ -46,7 +46,7 @@
     {
       "Style": "Mage",
       "Boss_Location": "N",
-      "Player_Location": "NE",
+      "Player_Location": "NNE",
       "Notes": "Stand Slightly in front of pillar"
     },
     {

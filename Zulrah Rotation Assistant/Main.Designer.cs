@@ -24,19 +24,10 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            this.MainCanvas = new System.Windows.Forms.Panel();
             this.MainLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.MainCanvas = new Zulrah_Rotation_Assistant.CustomPanel();
             this.MainLayout.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // MainCanvas
-            // 
-            this.MainCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainCanvas.Location = new System.Drawing.Point(0, 0);
-            this.MainCanvas.Margin = new System.Windows.Forms.Padding(0);
-            this.MainCanvas.Name = "MainCanvas";
-            this.MainCanvas.Size = new System.Drawing.Size(523, 534);
-            this.MainCanvas.TabIndex = 0;
             // 
             // MainLayout
             // 
@@ -48,22 +39,32 @@
             this.MainLayout.Name = "MainLayout";
             this.MainLayout.RowCount = 1;
             this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 534F));
             this.MainLayout.Size = new System.Drawing.Size(523, 534);
             this.MainLayout.TabIndex = 2;
+            // 
+            // MainCanvas
+            // 
+            this.MainCanvas.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.MainCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainCanvas.Location = new System.Drawing.Point(0, 0);
+            this.MainCanvas.Margin = new System.Windows.Forms.Padding(0);
+            this.MainCanvas.Name = "MainCanvas";
+            this.MainCanvas.Size = new System.Drawing.Size(523, 534);
+            this.MainCanvas.TabIndex = 0;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = Properties.Settings.Default.MapBackgroundColor;
+            this.BackColor = global::Zulrah_Rotation_Assistant.Properties.Settings.Default.MapBackgroundColor;
             this.ClientSize = new System.Drawing.Size(523, 534);
             this.Controls.Add(this.MainLayout);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(539, 573);
             this.Name = "Main";
             this.Text = "Zulrah Rotation Assitant";
-            this.TopMost = true;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_KeyDown);
             this.MainLayout.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -71,7 +72,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel MainCanvas;
+        private CustomPanel MainCanvas;
         private System.Windows.Forms.TableLayoutPanel MainLayout;
     }
 }

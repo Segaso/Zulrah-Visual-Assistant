@@ -30,16 +30,14 @@ namespace Zulrah_Rotation_Assistant {
             var possiblePhaseDisplay = new TableLayoutPanel {
                 Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Top,
                 Name = "PossiblePhaseDisplay",
-                Margin = new Padding(0),
+                Margin = new Padding(0,10,0,0),
                 RowCount = 1,
                 RowStyles = {new RowStyle(SizeType.AutoSize)},
                 ColumnCount = phases.Count
             };
 
             foreach (var phase in phases) {
-                var phaseCanvas = new Panel {
-                    Dock = DockStyle.Fill
-                };
+                var phaseCanvas = new CustomPanel();
 
                 var phaseMap = new MapRenderEngine(ref phaseCanvas);
 
@@ -73,6 +71,13 @@ namespace Zulrah_Rotation_Assistant {
 
             MainLayout.RowCount--;
             MainLayout.RowStyles.RemoveAt(0);
+        }
+
+        private void Main_KeyDown(object sender, KeyEventArgs e) {
+            if(e.KeyCode == Keys.F12) {
+                var Settings = new SettingsDialog();
+                Settings.ShowDialog();
+            }
         }
     }
 }

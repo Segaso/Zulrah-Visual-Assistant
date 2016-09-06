@@ -18,10 +18,10 @@ namespace Zulrah_Rotation_Assistant {
         //Allow the map to be oriented in either direction
         private readonly bool _flipMap;
         private readonly SvgDocument _map;
-        private readonly Panel _mapCanvas;
+        private readonly CustomPanel _mapCanvas;
         private List<string> _previousElementIDs;
 
-        public MapRenderEngine(ref Panel canvas) {
+        public MapRenderEngine(ref CustomPanel canvas) {
             _mapCanvas = canvas;
 
             var mapResource = new XmlDocument();
@@ -43,7 +43,7 @@ namespace Zulrah_Rotation_Assistant {
         }
 
         private void Canvas_SizeChanged(object sender, EventArgs e) {
-            var canvas = (Panel) sender;
+            var canvas = (CustomPanel) sender;
 
             _map.Height = _map.Height = canvas.Height;
             _map.Width = canvas.Width;

@@ -18,6 +18,8 @@ namespace Zulrah_Rotation_Assistant {
             E,
             NE,
             NW,
+            NNE,
+            NNW,
             SE,
             SW
         }
