@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
 using System.Xml;
 using Svg;
 using Zulrah_Rotation_Assistant.Properties;
@@ -54,7 +52,7 @@ namespace Zulrah_Rotation_Assistant {
         public Bitmap GetBitmap() {
             var mapImage = _map.Draw();
 
-            if (_flipMap) mapImage.RotateFlip(RotateFlipType.Rotate180FlipX);
+            if (_flipMap) mapImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
             return mapImage;
         }
 

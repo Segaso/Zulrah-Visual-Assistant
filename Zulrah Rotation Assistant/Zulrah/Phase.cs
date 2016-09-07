@@ -49,7 +49,7 @@ namespace Zulrah_Rotation_Assistant {
             }
 
             public string GetBossLocation() {
-                string locationSpeech = string.Empty;
+                var locationSpeech = string.Empty;
                 switch (BossLocation) {
                     case BossLocationType.N:
                         locationSpeech = "Top";

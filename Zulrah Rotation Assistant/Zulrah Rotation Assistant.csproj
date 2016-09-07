@@ -50,7 +50,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Speech" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -97,7 +96,6 @@
     </EmbeddedResource>
     <None Include="ILMerge.props" />
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\Zulrah_Rotation_Assistant.Properties.Settings.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

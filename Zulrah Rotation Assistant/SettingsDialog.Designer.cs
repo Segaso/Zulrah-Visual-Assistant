@@ -25,7 +25,6 @@
         private void InitializeComponent() {
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.chkFlipMap = new System.Windows.Forms.CheckBox();
             this.gbVoiceCommandsPosition = new System.Windows.Forms.GroupBox();
             this.tlpVoiceCommandsPosition = new System.Windows.Forms.TableLayoutPanel();
             this.lblEast = new System.Windows.Forms.Label();
@@ -57,15 +56,18 @@
             this.lblRangeColor = new System.Windows.Forms.Label();
             this.lblMageColor = new System.Windows.Forms.Label();
             this.lblMeleeColor = new System.Windows.Forms.Label();
+            this.chkFlipMap = new System.Windows.Forms.CheckBox();
             this.lblZulrahIslandColor = new System.Windows.Forms.Label();
             this.lblMapBackgroundColor = new System.Windows.Forms.Label();
             this.tlpVoiceCommandsGeneral = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
             this.lblPrevious = new System.Windows.Forms.Label();
             this.lblReset = new System.Windows.Forms.Label();
             this.lblNext = new System.Windows.Forms.Label();
             this.txtNext = new System.Windows.Forms.TextBox();
             this.txtReset = new System.Windows.Forms.TextBox();
             this.txtPrevious = new System.Windows.Forms.TextBox();
+            this.txtResume = new System.Windows.Forms.TextBox();
             this.gbVoiceCommandsGeneral = new System.Windows.Forms.GroupBox();
             this.gbVoiceCommandsPosition.SuspendLayout();
             this.tlpVoiceCommandsPosition.SuspendLayout();
@@ -79,7 +81,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(140, 542);
+            this.btnSave.Location = new System.Drawing.Point(140, 578);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(92, 23);
             this.btnSave.TabIndex = 1;
@@ -89,7 +91,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(238, 542);
+            this.btnCancel.Location = new System.Drawing.Point(238, 578);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 23);
             this.btnCancel.TabIndex = 2;
@@ -97,23 +99,10 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // chkFlipMap
-            // 
-            this.chkFlipMap.AutoSize = true;
-            this.chkFlipMap.Checked = global::Zulrah_Rotation_Assistant.Properties.Settings.Default.MapFlipped;
-            this.chkFlipMap.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::Zulrah_Rotation_Assistant.Properties.Settings.Default, "MapFlipped", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkFlipMap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkFlipMap.Location = new System.Drawing.Point(125, 3);
-            this.chkFlipMap.Name = "chkFlipMap";
-            this.chkFlipMap.Size = new System.Drawing.Size(172, 17);
-            this.chkFlipMap.TabIndex = 3;
-            this.chkFlipMap.Text = "Flip Map";
-            this.chkFlipMap.UseVisualStyleBackColor = true;
-            // 
             // gbVoiceCommandsPosition
             // 
             this.gbVoiceCommandsPosition.Controls.Add(this.tlpVoiceCommandsPosition);
-            this.gbVoiceCommandsPosition.Location = new System.Drawing.Point(12, 308);
+            this.gbVoiceCommandsPosition.Location = new System.Drawing.Point(12, 344);
             this.gbVoiceCommandsPosition.Name = "gbVoiceCommandsPosition";
             this.gbVoiceCommandsPosition.Size = new System.Drawing.Size(306, 124);
             this.gbVoiceCommandsPosition.TabIndex = 5;
@@ -231,7 +220,7 @@
             // gbVoiceCommandsStyle
             // 
             this.gbVoiceCommandsStyle.Controls.Add(this.tlpVoiceCommandsStyle);
-            this.gbVoiceCommandsStyle.Location = new System.Drawing.Point(12, 438);
+            this.gbVoiceCommandsStyle.Location = new System.Drawing.Point(12, 474);
             this.gbVoiceCommandsStyle.Name = "gbVoiceCommandsStyle";
             this.gbVoiceCommandsStyle.Size = new System.Drawing.Size(306, 98);
             this.gbVoiceCommandsStyle.TabIndex = 6;
@@ -515,6 +504,19 @@
             this.lblMeleeColor.Text = "Melee Color";
             this.lblMeleeColor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // chkFlipMap
+            // 
+            this.chkFlipMap.AutoSize = true;
+            this.chkFlipMap.Checked = global::Zulrah_Rotation_Assistant.Properties.Settings.Default.MapFlipped;
+            this.chkFlipMap.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::Zulrah_Rotation_Assistant.Properties.Settings.Default, "MapFlipped", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkFlipMap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkFlipMap.Location = new System.Drawing.Point(125, 3);
+            this.chkFlipMap.Name = "chkFlipMap";
+            this.chkFlipMap.Size = new System.Drawing.Size(172, 17);
+            this.chkFlipMap.TabIndex = 3;
+            this.chkFlipMap.Text = "Flip Map";
+            this.chkFlipMap.UseVisualStyleBackColor = true;
+            // 
             // lblZulrahIslandColor
             // 
             this.lblZulrahIslandColor.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -542,31 +544,44 @@
             this.tlpVoiceCommandsGeneral.ColumnCount = 2;
             this.tlpVoiceCommandsGeneral.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpVoiceCommandsGeneral.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpVoiceCommandsGeneral.Controls.Add(this.label1, 0, 3);
             this.tlpVoiceCommandsGeneral.Controls.Add(this.lblPrevious, 0, 2);
             this.tlpVoiceCommandsGeneral.Controls.Add(this.lblReset, 0, 1);
             this.tlpVoiceCommandsGeneral.Controls.Add(this.lblNext, 0, 0);
             this.tlpVoiceCommandsGeneral.Controls.Add(this.txtNext, 1, 0);
             this.tlpVoiceCommandsGeneral.Controls.Add(this.txtReset, 1, 1);
             this.tlpVoiceCommandsGeneral.Controls.Add(this.txtPrevious, 1, 2);
+            this.tlpVoiceCommandsGeneral.Controls.Add(this.txtResume, 1, 3);
             this.tlpVoiceCommandsGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpVoiceCommandsGeneral.Location = new System.Drawing.Point(3, 16);
             this.tlpVoiceCommandsGeneral.Name = "tlpVoiceCommandsGeneral";
-            this.tlpVoiceCommandsGeneral.RowCount = 3;
+            this.tlpVoiceCommandsGeneral.RowCount = 4;
             this.tlpVoiceCommandsGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpVoiceCommandsGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpVoiceCommandsGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpVoiceCommandsGeneral.Size = new System.Drawing.Size(300, 79);
+            this.tlpVoiceCommandsGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpVoiceCommandsGeneral.Size = new System.Drawing.Size(300, 104);
             this.tlpVoiceCommandsGeneral.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 84);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Resume";
             // 
             // lblPrevious
             // 
             this.lblPrevious.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblPrevious.AutoSize = true;
-            this.lblPrevious.Location = new System.Drawing.Point(3, 59);
+            this.lblPrevious.Location = new System.Drawing.Point(3, 58);
             this.lblPrevious.Name = "lblPrevious";
-            this.lblPrevious.Size = new System.Drawing.Size(48, 13);
+            this.lblPrevious.Size = new System.Drawing.Size(37, 13);
             this.lblPrevious.TabIndex = 7;
-            this.lblPrevious.Text = "Previous";
+            this.lblPrevious.Text = "Pause";
             // 
             // lblReset
             // 
@@ -593,9 +608,9 @@
             // 
             this.txtNext.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Zulrah_Rotation_Assistant.Properties.Settings.Default, "NextVoiceCommand", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtNext.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtNext.Location = new System.Drawing.Point(57, 3);
+            this.txtNext.Location = new System.Drawing.Point(55, 3);
             this.txtNext.Name = "txtNext";
-            this.txtNext.Size = new System.Drawing.Size(240, 20);
+            this.txtNext.Size = new System.Drawing.Size(242, 20);
             this.txtNext.TabIndex = 4;
             this.txtNext.Text = global::Zulrah_Rotation_Assistant.Properties.Settings.Default.NextVoiceCommand;
             // 
@@ -603,28 +618,37 @@
             // 
             this.txtReset.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Zulrah_Rotation_Assistant.Properties.Settings.Default, "ResetVoiceCommand", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtReset.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtReset.Location = new System.Drawing.Point(57, 29);
+            this.txtReset.Location = new System.Drawing.Point(55, 29);
             this.txtReset.Name = "txtReset";
-            this.txtReset.Size = new System.Drawing.Size(240, 20);
+            this.txtReset.Size = new System.Drawing.Size(242, 20);
             this.txtReset.TabIndex = 5;
             this.txtReset.Text = global::Zulrah_Rotation_Assistant.Properties.Settings.Default.ResetVoiceCommand;
             // 
             // txtPrevious
             // 
-            this.txtPrevious.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Zulrah_Rotation_Assistant.Properties.Settings.Default, "PreviousVoiceCommand", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtPrevious.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Zulrah_Rotation_Assistant.Properties.Settings.Default, "PauseVoiceCommand", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtPrevious.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtPrevious.Location = new System.Drawing.Point(57, 55);
+            this.txtPrevious.Location = new System.Drawing.Point(55, 55);
             this.txtPrevious.Name = "txtPrevious";
-            this.txtPrevious.Size = new System.Drawing.Size(240, 20);
+            this.txtPrevious.Size = new System.Drawing.Size(242, 20);
             this.txtPrevious.TabIndex = 6;
-            this.txtPrevious.Text = global::Zulrah_Rotation_Assistant.Properties.Settings.Default.PreviousVoiceCommand;
+            this.txtPrevious.Text = global::Zulrah_Rotation_Assistant.Properties.Settings.Default.PauseVoiceCommand;
+            // 
+            // txtResume
+            // 
+            this.txtResume.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Zulrah_Rotation_Assistant.Properties.Settings.Default, "ResumeVoiceCommand", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtResume.Location = new System.Drawing.Point(55, 81);
+            this.txtResume.Name = "txtResume";
+            this.txtResume.Size = new System.Drawing.Size(240, 20);
+            this.txtResume.TabIndex = 9;
+            this.txtResume.Text = global::Zulrah_Rotation_Assistant.Properties.Settings.Default.ResumeVoiceCommand;
             // 
             // gbVoiceCommandsGeneral
             // 
             this.gbVoiceCommandsGeneral.Controls.Add(this.tlpVoiceCommandsGeneral);
             this.gbVoiceCommandsGeneral.Location = new System.Drawing.Point(12, 204);
             this.gbVoiceCommandsGeneral.Name = "gbVoiceCommandsGeneral";
-            this.gbVoiceCommandsGeneral.Size = new System.Drawing.Size(306, 98);
+            this.gbVoiceCommandsGeneral.Size = new System.Drawing.Size(306, 123);
             this.gbVoiceCommandsGeneral.TabIndex = 7;
             this.gbVoiceCommandsGeneral.TabStop = false;
             this.gbVoiceCommandsGeneral.Text = "Voice Commands - General";
@@ -633,7 +657,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(323, 574);
+            this.ClientSize = new System.Drawing.Size(323, 609);
             this.Controls.Add(this.gbMapSettings);
             this.Controls.Add(this.gbVoiceCommandsGeneral);
             this.Controls.Add(this.gbVoiceCommandsStyle);
@@ -649,6 +673,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Zulrah Rotation Assistant Settings";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SettingsDialog_FormClosed);
             this.gbVoiceCommandsPosition.ResumeLayout(false);
             this.tlpVoiceCommandsPosition.ResumeLayout(false);
             this.tlpVoiceCommandsPosition.PerformLayout();
@@ -710,5 +735,7 @@
         private System.Windows.Forms.Label lblMapBackgroundColor;
         private System.Windows.Forms.Panel pnMapColor;
         private System.Windows.Forms.Panel pnMeleeColor;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtResume;
     }
 }

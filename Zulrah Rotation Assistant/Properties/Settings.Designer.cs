@@ -229,13 +229,13 @@ namespace Zulrah_Rotation_Assistant.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Previous")]
-        public string PreviousVoiceCommand {
+        [global::System.Configuration.DefaultSettingValueAttribute("Pause")]
+        public string PauseVoiceCommand {
             get {
-                return ((string)(this["PreviousVoiceCommand"]));
+                return ((string)(this["PauseVoiceCommand"]));
             }
             set {
-                this["PreviousVoiceCommand"] = value;
+                this["PauseVoiceCommand"] = value;
             }
         }
         
@@ -272,6 +272,18 @@ namespace Zulrah_Rotation_Assistant.Properties {
             }
             set {
                 this["VoiceCommandLanguage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Resume")]
+        public string ResumeVoiceCommand {
+            get {
+                return ((string)(this["ResumeVoiceCommand"]));
+            }
+            set {
+                this["ResumeVoiceCommand"] = value;
             }
         }
     }

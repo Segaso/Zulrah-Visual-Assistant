@@ -1,38 +1,47 @@
 ﻿using System.Collections.Generic;
 using System.Speech.Recognition;
 using System.Speech.Synthesis;
+using System.Windows.Forms;
 using Zulrah_Rotation_Assistant.Properties;
 
 namespace Zulrah_Rotation_Assistant {
     public class VoiceCommandEngine {
         private static VoiceCommandEngine _instance;
         private readonly SpeechSynthesizer _speechSynthesizer;
+        private bool _voicePaused;
 
         private VoiceCommandEngine() {
             var language = Settings.Default.VoiceCommandLanguage;
             var speechEngine = new SpeechRecognitionEngine(language);
-            speechEngine.SetInputToDefaultAudioDevice();
-            speechEngine.SpeechRecognized += SpeechEngine_SpeechRecognized;
+            try {
+                speechEngine.SetInputToDefaultAudioDevice();
+                speechEngine.SpeechRecognized += SpeechEngine_SpeechRecognized;
 
-            Zulrah.Instance.OnPhaseChanged += BossPhaseChanged;
-            Zulrah.Instance.OnPhaseDecisionRequired += BossPhaseInputRequired;
+                Zulrah.Instance.OnPhaseChanged += BossPhaseChanged;
+                Zulrah.Instance.OnPhaseDecisionRequired += BossPhaseInputRequired;
 
-            _speechSynthesizer = new SpeechSynthesizer {Rate = 4};
+                _speechSynthesizer = new SpeechSynthesizer {Rate = 4};
 
-            string[] commands = {
-                Settings.Default.MeleeVoiceCommand,
-                Settings.Default.MageVoiceCommand,
-                Settings.Default.RangeVoiceCommand,
-                Settings.Default.NorthPositionVoiceCommand,
-                Settings.Default.SouthPositionVoiceCommand,
-                Settings.Default.WestPositionVoiceCommand,
-                Settings.Default.EastPositionVoiceCommand,
-                Settings.Default.ResetVoiceCommand,
-                Settings.Default.NextVoiceCommand
-            };
+                string[] commands = {
+                    Settings.Default.MeleeVoiceCommand,
+                    Settings.Default.MageVoiceCommand,
+                    Settings.Default.RangeVoiceCommand,
+                    Settings.Default.NorthPositionVoiceCommand,
+                    Settings.Default.SouthPositionVoiceCommand,
+                    Settings.Default.WestPositionVoiceCommand,
+                    Settings.Default.EastPositionVoiceCommand,
+                    Settings.Default.ResetVoiceCommand,
+                    Settings.Default.NextVoiceCommand,
+                    Settings.Default.ResumeVoiceCommand,
+                    Settings.Default.PauseVoiceCommand
+                };
 
-            speechEngine.LoadGrammarAsync(new Grammar(new Choices(commands).ToGrammarBuilder()));
-            speechEngine.RecognizeAsync(RecognizeMode.Multiple);
+                speechEngine.LoadGrammarAsync(new Grammar(new Choices(commands).ToGrammarBuilder()));
+                speechEngine.RecognizeAsync(RecognizeMode.Multiple);
+            }
+            catch {
+                MessageBox.Show("Program Will Not Function, No Microphone Found");
+            }
         }
 
         public static VoiceCommandEngine Instance => _instance ?? (_instance = new VoiceCommandEngine());
@@ -40,17 +49,16 @@ namespace Zulrah_Rotation_Assistant {
         private void BossPhaseInputRequired(IList<Zulrah.Phase> phases, bool sameAttackStyle) {
             var statement = string.Empty;
 
-            if (!sameAttackStyle) {
+            if (!sameAttackStyle)
                 for (var i = 0; i < phases.Count; i++) {
                     if (phases.Count - 1 == i) statement += "or";
                     statement += phases[i].Style;
                 }
-            }else {
+            else
                 for (var i = 0; i < phases.Count; i++) {
                     if (phases.Count - 1 == i) statement += "or";
                     statement += phases[i].GetBossLocation();
                 }
-            }
 
             _speechSynthesizer.SpeakAsync($"Input Required: {statement}");
         }
@@ -68,7 +76,10 @@ namespace Zulrah_Rotation_Assistant {
             var voiceCommand = e.Result.Text;
             var confidence = e.Result.Confidence;
 
-            if (!(confidence > .5)) return;
+            if (_voicePaused && (voiceCommand == Settings.Default.ResumeVoiceCommand)) ResumeVoiceCommands();
+            else if (!_voicePaused && (voiceCommand == Settings.Default.PauseVoiceCommand)) PauseVoiceCommands();
+
+            if (!((confidence > .5) && !_voicePaused)) return;
             if (voiceCommand == Settings.Default.NextVoiceCommand) Zulrah.Instance.NextPhase();
             else if (voiceCommand == Settings.Default.ResetVoiceCommand) Zulrah.Instance.Reset();
             else if (voiceCommand == Settings.Default.MageVoiceCommand)
@@ -86,5 +97,8 @@ namespace Zulrah_Rotation_Assistant {
             else if (voiceCommand == Settings.Default.EastPositionVoiceCommand)
                 Zulrah.Instance.NextPhaseByLocation(Zulrah.BossLocationType.E);
         }
+
+        public void PauseVoiceCommands() => _voicePaused = true;
+        public void ResumeVoiceCommands() => _voicePaused = false;
     }
 }

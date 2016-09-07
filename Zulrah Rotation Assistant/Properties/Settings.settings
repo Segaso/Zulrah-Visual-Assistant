@@ -53,8 +53,8 @@
     <Setting Name="ResetVoiceCommand" Type="System.String" Scope="User">
       <Value Profile="(Default)">Reset</Value>
     </Setting>
-    <Setting Name="PreviousVoiceCommand" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Previous</Value>
+    <Setting Name="PauseVoiceCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Pause</Value>
     </Setting>
     <Setting Name="NextVoiceCommand" Type="System.String" Scope="User">
       <Value Profile="(Default)">Next</Value>
@@ -64,6 +64,9 @@
     </Setting>
     <Setting Name="VoiceCommandLanguage" Type="System.Globalization.CultureInfo" Scope="User">
       <Value Profile="(Default)">en-US</Value>
+    </Setting>
+    <Setting Name="ResumeVoiceCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Resume</Value>
     </Setting>
   </Settings>
 </SettingsFile>

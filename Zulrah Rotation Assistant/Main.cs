@@ -30,7 +30,7 @@ namespace Zulrah_Rotation_Assistant {
             var possiblePhaseDisplay = new TableLayoutPanel {
                 Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Top,
                 Name = "PossiblePhaseDisplay",
-                Margin = new Padding(0,10,0,0),
+                Margin = new Padding(0, 10, 0, 0),
                 RowCount = 1,
                 RowStyles = {new RowStyle(SizeType.AutoSize)},
                 ColumnCount = phases.Count
@@ -74,10 +74,15 @@ namespace Zulrah_Rotation_Assistant {
         }
 
         private void Main_KeyDown(object sender, KeyEventArgs e) {
-            if(e.KeyCode == Keys.F12) {
-                var Settings = new SettingsDialog();
-                Settings.ShowDialog();
+            if (e.KeyCode == Keys.F12) {
+                var settings = new SettingsDialog();
+                settings.ShowDialog();
             }
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e) {
+            var settings = new SettingsDialog();
+            settings.ShowDialog();
         }
     }
 }

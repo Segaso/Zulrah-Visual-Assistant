@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Resources;
-using System.Text;
 using Newtonsoft.Json;
+using Zulrah_Rotation_Assistant.Properties;
 
 namespace Zulrah_Rotation_Assistant {
     public partial class Zulrah {
@@ -54,10 +50,10 @@ namespace Zulrah_Rotation_Assistant {
         ///     Loads the rotation data from the rotation.json files.
         /// </summary>
         private void LoadRotations() {
-            _rotations.Add(JsonConvert.DeserializeObject<Rotation>(Properties.Resources.Rotation_1));
-            _rotations.Add(JsonConvert.DeserializeObject<Rotation>(Properties.Resources.Rotation_2));
-            _rotations.Add(JsonConvert.DeserializeObject<Rotation>(Properties.Resources.Rotation_3));
-            _rotations.Add(JsonConvert.DeserializeObject<Rotation>(Properties.Resources.Rotation_4));
+            _rotations.Add(JsonConvert.DeserializeObject<Rotation>(Resources.Rotation_1));
+            _rotations.Add(JsonConvert.DeserializeObject<Rotation>(Resources.Rotation_2));
+            _rotations.Add(JsonConvert.DeserializeObject<Rotation>(Resources.Rotation_3));
+            _rotations.Add(JsonConvert.DeserializeObject<Rotation>(Resources.Rotation_4));
         }
 
         public void NextPhase() {
@@ -76,9 +72,7 @@ namespace Zulrah_Rotation_Assistant {
             if (PhaseDecisionRequired) {
                 var tempRotations = _possibleRotations.Where(r => r.NextPhase.Style == bossStyle).ToList();
 
-                if (tempRotations.Count != 0) {
-                    _possibleRotations = tempRotations;
-                }
+                if (tempRotations.Count != 0) _possibleRotations = tempRotations;
                 var phases = GetPossiblePhases();
 
                 if (phases.Count == 1) {
@@ -95,9 +89,7 @@ namespace Zulrah_Rotation_Assistant {
             if (PhaseDecisionRequired) {
                 var tempRotations = _possibleRotations.Where(r => r.NextPhase.BossLocation == bossLocation).ToList();
 
-                if (tempRotations.Count != 0) {
-                    _possibleRotations = tempRotations;
-                }
+                if (tempRotations.Count != 0) _possibleRotations = tempRotations;
 
                 var phases = GetPossiblePhases();
 
