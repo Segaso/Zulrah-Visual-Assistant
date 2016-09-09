@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Windows.Forms;
@@ -9,35 +11,54 @@ namespace Zulrah_Rotation_Assistant {
         private static VoiceCommandEngine _instance;
         private readonly SpeechSynthesizer _speechSynthesizer;
         private bool _voicePaused;
+        private static readonly  CultureInfo Language = Settings.Default.VoiceCommandLanguage;
+        private SpeechRecognitionEngine _srEngine = new SpeechRecognitionEngine(Language);
+
+        private Grammar _generalChoices;
+        private Grammar _styleChoices;
+        private Grammar _positionChoices;
 
         private VoiceCommandEngine() {
-            var language = Settings.Default.VoiceCommandLanguage;
-            var speechEngine = new SpeechRecognitionEngine(language);
             try {
-                speechEngine.SetInputToDefaultAudioDevice();
-                speechEngine.SpeechRecognized += SpeechEngine_SpeechRecognized;
+                _srEngine.SetInputToDefaultAudioDevice();
+                _srEngine.SpeechRecognized += SpeechEngine_SpeechRecognized;
 
                 Zulrah.Instance.OnPhaseChanged += BossPhaseChanged;
                 Zulrah.Instance.OnPhaseDecisionRequired += BossPhaseInputRequired;
 
                 _speechSynthesizer = new SpeechSynthesizer {Rate = 4};
 
-                string[] commands = {
-                    Settings.Default.MeleeVoiceCommand,
-                    Settings.Default.MageVoiceCommand,
-                    Settings.Default.RangeVoiceCommand,
-                    Settings.Default.NorthPositionVoiceCommand,
-                    Settings.Default.SouthPositionVoiceCommand,
-                    Settings.Default.WestPositionVoiceCommand,
-                    Settings.Default.EastPositionVoiceCommand,
+                string[] generalCommands = {
                     Settings.Default.ResetVoiceCommand,
                     Settings.Default.NextVoiceCommand,
                     Settings.Default.ResumeVoiceCommand,
                     Settings.Default.PauseVoiceCommand
                 };
 
-                speechEngine.LoadGrammarAsync(new Grammar(new Choices(commands).ToGrammarBuilder()));
-                speechEngine.RecognizeAsync(RecognizeMode.Multiple);
+
+                string[] styleCommands = {
+                    Settings.Default.MeleeVoiceCommand,
+                    Settings.Default.MageVoiceCommand,
+                    Settings.Default.RangeVoiceCommand
+                };
+
+                string[] positionCommands = {
+                    Settings.Default.NorthPositionVoiceCommand,
+                    Settings.Default.SouthPositionVoiceCommand,
+                    Settings.Default.WestPositionVoiceCommand,
+                    Settings.Default.EastPositionVoiceCommand
+                };
+
+                _generalChoices = new Grammar(new Choices(generalCommands).ToGrammarBuilder()) { Name = "General" };
+                _styleChoices = new Grammar(new Choices(styleCommands).ToGrammarBuilder()) {Name = "StyleChoice", Enabled = false};
+                _positionChoices = new Grammar(new Choices(positionCommands).ToGrammarBuilder()) { Name = "LocationChoice", Enabled = false};
+               
+
+                _srEngine.LoadGrammarAsync(_generalChoices);
+                _srEngine.LoadGrammarAsync(_styleChoices);
+                _srEngine.LoadGrammarAsync(_positionChoices);
+
+                _srEngine.RecognizeAsync(RecognizeMode.Multiple);
             }
             catch {
                 MessageBox.Show("Program Will Not Function, No Microphone Found");
@@ -53,17 +74,26 @@ namespace Zulrah_Rotation_Assistant {
                 for (var i = 0; i < phases.Count; i++) {
                     if (phases.Count - 1 == i) statement += "or";
                     statement += phases[i].Style;
+
+                    _srEngine.Grammars[_srEngine.Grammars.IndexOf(_styleChoices)].Enabled = true;
+                    _srEngine.Grammars[_srEngine.Grammars.IndexOf(_positionChoices)].Enabled = false;
                 }
             else
                 for (var i = 0; i < phases.Count; i++) {
                     if (phases.Count - 1 == i) statement += "or";
                     statement += phases[i].GetBossLocation();
+
+                    _srEngine.Grammars[_srEngine.Grammars.IndexOf(_styleChoices)].Enabled = false;
+                    _srEngine.Grammars[_srEngine.Grammars.IndexOf(_positionChoices)].Enabled = true;
                 }
 
             _speechSynthesizer.SpeakAsync($"Input Required: {statement}");
         }
 
         private void BossPhaseChanged(Zulrah.Rotation rotation) {
+            _srEngine.Grammars[_srEngine.Grammars.IndexOf(_styleChoices)].Enabled = false;
+            _srEngine.Grammars[_srEngine.Grammars.IndexOf(_positionChoices)].Enabled = false;
+
             _speechSynthesizer.SpeakAsync(rotation.CurrentPhase.GetNotes());
 
             if (rotation.PlayerLocationMoved) _speechSynthesizer.SpeakAsync("Player Location Moved");
